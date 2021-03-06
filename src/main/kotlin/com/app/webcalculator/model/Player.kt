@@ -6,14 +6,11 @@ class Player(private var resources: Resources, private var fightStats: FightStat
         var opponentDamage :Int = 0
 
         while (opponentFightStats.getHp()-opponentDamage>=0 && fightStats.getHp()-yourDamage>=0) {
-            yourDamage += attack(opponentFightStats.getStrength(),fightStats.getArmor())
+            yourDamage += attack(opponentFightStats.getStrength(), fightStats.getArmor())
             opponentDamage += attack(fightStats.getStrength(), opponentFightStats.getArmor())
         }
-        return if (fightStats.getHp()-yourDamage<=0) {
-            0
-        } else {
-            fightStats.getHp()-yourDamage
-        }
+        fightStats.takeDamage(yourDamage)
+        return fightStats.getHp()
 
     }
     private fun attack( strength :Int, armor :Int) :Int {
@@ -31,4 +28,6 @@ class Player(private var resources: Resources, private var fightStats: FightStat
     public fun getFightStats() : FightStats {
         return fightStats
     }
+
+
 }
