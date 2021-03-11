@@ -13,11 +13,11 @@ function killGoblin() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(this.responseText);
-            document.getElementById("hp").innerHTML = response.fightStats.hp;
-            document.getElementById("experience").innerHTML = response.fightStats.experience;
-            document.getElementById("amountOfGold").innerHTML = response.resources.gold;
-            document.getElementById("amountOfIron").innerHTML = response.resources.iron;
-            document.getElementById("amountOfMeat").innerHTML = response.resources.meat;
+            document.getElementById("hp").innerHTML = response.fightStatsJsonObject.hp;
+            document.getElementById("experience").innerHTML = response.fightStatsJsonObject.experience;
+            document.getElementById("amountOfGold").innerHTML = response.resourcesJsonObject.gold;
+            document.getElementById("amountOfIron").innerHTML = response.resourcesJsonObject.iron;
+            document.getElementById("amountOfMeat").innerHTML = response.resourcesJsonObject.meat;
         }
     };
     // Converting JSON data to string
@@ -53,10 +53,10 @@ function getPotion() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var response = JSON.parse(this.responseText);
-                document.getElementById("hp").innerHTML = response.fightStats.hp;
-                document.getElementById("amountOfGold").innerHTML = response.resources.gold;
-                document.getElementById("amountOfIron").innerHTML = response.resources.iron;
-                document.getElementById("amountOfMeat").innerHTML = response.resources.meat;
+                document.getElementById("hp").innerHTML = response.fightStatsJsonObject.hp;
+                document.getElementById("amountOfGold").innerHTML = response.resourcesJsonObject.gold;
+                document.getElementById("amountOfIron").innerHTML = response.resourcesJsonObject.iron;
+                document.getElementById("amountOfMeat").innerHTML = response.resourcesJsonObject.meat;
             }
         };
 
