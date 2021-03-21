@@ -10,12 +10,12 @@ class CombatSimulator {
         var yourDamage :Int = 0
         var opponentDamage :Int = 0
 
-        while (opponentFightStats.getHp()-opponentDamage>=0 && player.getFightStats().getHp()-yourDamage>=0) {
-            yourDamage += attack(opponentFightStats.getStrength(), player.getFightStats().getArmor())
-            opponentDamage += attack(player.getFightStats().getStrength(), opponentFightStats.getArmor())
+        while (opponentFightStats.getHp()-opponentDamage>=0 && player.getFightStats().getHpNumber()-yourDamage>=0) {
+            yourDamage += attack(opponentFightStats.getStrength(), player.getFightStats().getArmorNumber())
+            opponentDamage += attack(player.getFightStats().getStrengthNumber(), opponentFightStats.getArmor())
         }
         player.getFightStats().takeDamage(yourDamage)
-        return player.getFightStats().getHp()
+        return player.getFightStats().getHpNumber()
 
     }
     private fun attack( strength :Int, armor :Int) :Int {

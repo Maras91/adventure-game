@@ -1,40 +1,40 @@
 package com.app.webcalculator.model.fight.statistics
 
-class FightStats(startStrength: Int, startHp: Int, startArmor: Int, experience: Int) {
-    private val strength :MutableList<Int> = mutableListOf(startStrength)
-    private val hp :MutableList<Int> = mutableListOf(startHp)
-    private val armor :MutableList<Int> = mutableListOf(startArmor)
-    private val experience :MutableList<Int> = mutableListOf(experience)
+import com.app.webcalculator.model.fight.statistics.value.Armor
+import com.app.webcalculator.model.fight.statistics.value.Hp
+import com.app.webcalculator.model.fight.statistics.value.Strength
 
+class FightStats(private val strength: Strength, private val hp: Hp, private val armor: Armor) {
 
-
-    public fun takeDamage(damage : Int) {
-        hp.add(damage*(-1))
+    public fun takeDamage(damageTaken : Int) {
+        hp.takeDamage(damageTaken)
     }
 
     public fun hpRecovery(hpRecovery :Int) {
-        hp.add(hpRecovery)
+        hp.hpRecovery(hpRecovery)
     }
 
-    public fun addExperience (experience : Int) {
-        experience.and(experience)
+    public fun getStrengthNumber() : Int {
+        return strength.getStrength()
     }
 
-    fun getExperience(): Int {
-        return experience.reduce{x, x2->x+x2}
+    public fun getHpNumber(): Int {
+        return  hp.getHp()
     }
 
-    public fun getStrength() : Int {
-        return strength.reduce{x, x2->x+x2}
+    public fun getArmorNumber(): Int {
+        return  armor.getArmor()
     }
 
-    public fun getHp(): Int {
-        return  hp.reduce{x, x2->x+x2}
+    public fun getStrength() : Strength {
+        return strength
     }
 
-    public fun getArmor(): Int {
-        return  armor.reduce{x, x2->x+x2}
+    public fun getHp(): Hp {
+        return  hp
     }
 
-
+    public fun getArmor(): Armor {
+        return  armor
+    }
 }

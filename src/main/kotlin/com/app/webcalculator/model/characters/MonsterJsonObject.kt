@@ -3,9 +3,10 @@ package com.app.webcalculator.model.characters
 import com.app.webcalculator.model.fight.statistics.FightStatsJsonObject
 import com.app.webcalculator.model.resources.ResourcesJsonObject
 
-class MonsterJsonObject(fightStats : FightStatsJsonObject, resources : ResourcesJsonObject) {
+class MonsterJsonObject(fightStats : FightStatsJsonObject, resources : ResourcesJsonObject, experience : Int) {
     private val fightStatsJsonObject : FightStatsJsonObject = fightStats
     private val resourcesJsonObject : ResourcesJsonObject = resources
+    private val experience : Int = experience
 
     public fun getResourcesJsonObject() : ResourcesJsonObject {
         return resourcesJsonObject
@@ -13,5 +14,9 @@ class MonsterJsonObject(fightStats : FightStatsJsonObject, resources : Resources
 
     public fun getFightStatsJsonObject() : FightStatsJsonObject {
         return fightStatsJsonObject
+    }
+
+    fun getExperience(): Int {
+        return experience
     }
 }

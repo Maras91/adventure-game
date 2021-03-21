@@ -13,8 +13,13 @@ function killGoblin() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(this.responseText);
+            document.getElementById("strength").innerHTML = response.fightStatsJsonObject.strength;
             document.getElementById("hp").innerHTML = response.fightStatsJsonObject.hp;
-            document.getElementById("experience").innerHTML = response.fightStatsJsonObject.experience;
+            document.getElementById("hpMax").innerHTML = response.fightStatsJsonObject.hpMax;
+            document.getElementById("armor").innerHTML = response.fightStatsJsonObject.armor;
+            document.getElementById("experience").innerHTML = response.experience;
+            document.getElementById("nextLevelExp").innerHTML = response.experienceToNextLevel;
+            document.getElementById("level").innerHTML = response.level;
             document.getElementById("amountOfGold").innerHTML = response.resourcesJsonObject.gold;
             document.getElementById("amountOfIron").innerHTML = response.resourcesJsonObject.iron;
             document.getElementById("amountOfMeat").innerHTML = response.resourcesJsonObject.meat;
@@ -25,14 +30,14 @@ function killGoblin() {
                               	"fightStats": {
                                 		"strength": 5,
                                 		"hp": 25,
-                                		"armor": 3,
-                                		"experience" : 100
+                                		"armor": 3
                                 	  },
                                 	  "resources": {
                                 		"gold": 4,
                                 		"iron": 1,
                                 		"meat": 6
-                                	  }
+                                	  },
+                                	  "experience" : 125
                                 });
 
     // Sending data with the request

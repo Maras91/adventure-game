@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service
 class FightStatsJsonConverter {
 
     fun convertFromFightStatsToJson(fightStats : FightStats) : FightStatsJsonObject {
-        return FightStatsJsonObject (fightStats.getStrength(),fightStats.getHp(),fightStats.getArmor(),fightStats.getExperience())
+        return FightStatsJsonObject (fightStats.getStrengthNumber(),fightStats.getHpNumber(), fightStats.getHp().getMaxHp(),fightStats.getArmorNumber())
     }
 }
