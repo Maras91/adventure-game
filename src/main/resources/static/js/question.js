@@ -13,16 +13,16 @@ function killGoblin() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(this.responseText);
-            document.getElementById("strength").innerHTML = response.fightStatsJsonObject.strength;
-            document.getElementById("hp").innerHTML = response.fightStatsJsonObject.hp;
-            document.getElementById("hpMax").innerHTML = response.fightStatsJsonObject.hpMax;
-            document.getElementById("armor").innerHTML = response.fightStatsJsonObject.armor;
-            document.getElementById("experience").innerHTML = response.experience;
-            document.getElementById("nextLevelExp").innerHTML = response.experienceToNextLevel;
-            document.getElementById("level").innerHTML = response.level;
-            document.getElementById("amountOfGold").innerHTML = response.resourcesJsonObject.gold;
-            document.getElementById("amountOfIron").innerHTML = response.resourcesJsonObject.iron;
-            document.getElementById("amountOfMeat").innerHTML = response.resourcesJsonObject.meat;
+            document.getElementById("strength").innerHTML = response.fightStatsView.strength;
+            document.getElementById("hp").innerHTML = response.fightStatsView.hp;
+            document.getElementById("hpMax").innerHTML = response.fightStatsView.hpMax;
+            document.getElementById("armor").innerHTML = response.fightStatsView.armor;
+            document.getElementById("experience").innerHTML = response.experienceView.value;
+            document.getElementById("nextLevelExp").innerHTML = response.experienceView.nextLevelExp;
+            document.getElementById("level").innerHTML = response.experienceView.level;
+            document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
+            document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
+            document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
         }
     };
     // Converting JSON data to string
@@ -30,6 +30,7 @@ function killGoblin() {
                               	"fightStats": {
                                 		"strength": 5,
                                 		"hp": 25,
+                                		"hpMax":25,
                                 		"armor": 3
                                 	  },
                                 	  "resources": {
@@ -58,10 +59,10 @@ function getPotion() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var response = JSON.parse(this.responseText);
-                document.getElementById("hp").innerHTML = response.fightStatsJsonObject.hp;
-                document.getElementById("amountOfGold").innerHTML = response.resourcesJsonObject.gold;
-                document.getElementById("amountOfIron").innerHTML = response.resourcesJsonObject.iron;
-                document.getElementById("amountOfMeat").innerHTML = response.resourcesJsonObject.meat;
+                document.getElementById("hp").innerHTML = response.fightStatsView.hp;
+                document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
+                document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
+                document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
             }
         };
 

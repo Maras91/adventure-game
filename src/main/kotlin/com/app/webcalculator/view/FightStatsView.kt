@@ -1,6 +1,8 @@
-package com.app.webcalculator.model.fight.statistics
+package com.app.webcalculator.view
 
-class FightStatsJsonObject {
+import com.app.webcalculator.model.fight.statistics.FightStats
+
+class FightStatsView {
     private val strength :Int
     private val hp :Int
     private val hpMax :Int
@@ -14,6 +16,12 @@ class FightStatsJsonObject {
         this.armor = armor
     }
 
+    constructor(fightStats : FightStats) {
+        this.strength = fightStats.getStrengthNumber()
+        this.hp = fightStats.getHpNumber()
+        this.hpMax = fightStats.getHp().getMaxHp()
+        this.armor = fightStats.getArmorNumber()
+    }
 
     public fun getStrength() : Int {
         return strength
@@ -30,4 +38,5 @@ class FightStatsJsonObject {
     public fun getArmor(): Int {
         return  armor
     }
+
 }

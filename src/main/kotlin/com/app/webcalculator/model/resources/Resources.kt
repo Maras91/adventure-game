@@ -1,12 +1,14 @@
 package com.app.webcalculator.model.resources
 
+import com.app.webcalculator.view.ResourcesView
+
 class Resources (startGold: Double, startIron: Double, startMeat: Double) {
     private val gold : MutableList<Double> = mutableListOf(startGold)
     private val iron : MutableList<Double> = mutableListOf(startIron)
     private val meat : MutableList<Double> = mutableListOf(startMeat)
 
 
-    fun addResources(resourcesToAdd : ResourcesJsonObject) {
+    fun addResources(resourcesToAdd : ResourcesView) {
         this.gold.add(resourcesToAdd.getGold())
         this.iron.add(resourcesToAdd.getIron())
         this.meat.add(resourcesToAdd.getMeat())

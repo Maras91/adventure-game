@@ -1,12 +1,12 @@
 package com.app.webcalculator.model.fight
 
 import com.app.webcalculator.model.characters.Player
-import com.app.webcalculator.model.fight.statistics.FightStatsJsonObject
+import com.app.webcalculator.view.FightStatsView
 import org.springframework.stereotype.Service
 
 @Service
 class CombatSimulator {
-    public fun fight(player : Player, opponentFightStats: FightStatsJsonObject) :Int {
+    public fun fight(player : Player, opponentFightStats: FightStatsView) :Int {
         var yourDamage :Int = 0
         var opponentDamage :Int = 0
 
