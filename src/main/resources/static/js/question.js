@@ -20,6 +20,7 @@ function killGoblin() {
             document.getElementById("experience").innerHTML = response.experienceView.value;
             document.getElementById("nextLevelExp").innerHTML = response.experienceView.nextLevelExp;
             document.getElementById("level").innerHTML = response.experienceView.level;
+            document.getElementById("levelUpPoints").innerHTML = response.levelUpPoints;
             document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
             document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
             document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
@@ -38,7 +39,7 @@ function killGoblin() {
                                 		"iron": 1,
                                 		"meat": 6
                                 	  },
-                                	  "experience" : 125
+                                	  "experience" : 1250
                                 });
 
     // Sending data with the request

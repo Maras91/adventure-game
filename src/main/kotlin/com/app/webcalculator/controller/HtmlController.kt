@@ -7,6 +7,7 @@ import com.app.webcalculator.model.characters.Player
 import com.app.webcalculator.view.PlayerView
 import com.app.webcalculator.model.fight.CombatSimulator
 import com.app.webcalculator.model.fight.experience.Experience
+import com.app.webcalculator.model.fight.experience.StatsUp
 import com.app.webcalculator.model.fight.statistics.value.Armor
 import com.app.webcalculator.model.fight.statistics.value.Hp
 import com.app.webcalculator.model.fight.statistics.value.Strength
@@ -31,8 +32,8 @@ class HtmlController {
 
     var player : Player = Player(Resources(0.0,0.0,0.0),
             FightStats(Strength(7,0,0),
-                       Hp(50,0,0,0),
-                       Armor(3,0,0)), Experience())
+                    Hp(50,0,0,0),
+                    Armor(3,0,0)), Experience())
 
     @GetMapping("/")
     fun start(): String {
@@ -49,7 +50,9 @@ class HtmlController {
 
         return PlayerView(FightStatsView(player.getFightStats()),
                 ResourcesView(player.getResources()),
-                ExperienceView(player.getExperience()))
+                ExperienceView(player.getExperience()),
+                player.getExperience().allStatsPointsToSpend() -
+                        player.getFightStats().allSpentLevelPoints())
     }
 
     @PostMapping("/getPotion")
@@ -61,7 +64,16 @@ class HtmlController {
         return PlayerView(
                 FightStatsView(player.getFightStats()),
                 ResourcesView(player.getResources()),
-                ExperienceView(player.getExperience()))
+                ExperienceView(player.getExperience()),
+                player.getExperience().allStatsPointsToSpend() -
+                        player.getFightStats().allSpentLevelPoints())
+    }
+
+    @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
+    @ResponseBody
+    fun levelUp(@RequestBody statsUp : StatsUp) : FightStatsView {
+        player.addStatsUp(statsUp)
+        return FightStatsView(player.getFightStats())
     }
 }
 

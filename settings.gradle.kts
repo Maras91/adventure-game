@@ -1,1 +1,1 @@
-rootProject.name = "web-calculator"
+rootProject.name = "adventure-game"

@@ -1,5 +1,6 @@
 package com.app.webcalculator.model.fight.statistics
 
+import com.app.webcalculator.model.fight.experience.StatsUp
 import com.app.webcalculator.model.fight.statistics.value.Armor
 import com.app.webcalculator.model.fight.statistics.value.Hp
 import com.app.webcalculator.model.fight.statistics.value.Strength
@@ -15,15 +16,15 @@ class FightStats(private val strength: Strength, private val hp: Hp, private val
     }
 
     public fun getStrengthNumber() : Int {
-        return strength.getStrength()
+        return strength.getValue()
     }
 
     public fun getHpNumber(): Int {
-        return  hp.getHp()
+        return  hp.getValue()
     }
 
     public fun getArmorNumber(): Int {
-        return  armor.getArmor()
+        return  armor.getValue()
     }
 
     public fun getStrength() : Strength {
@@ -36,5 +37,16 @@ class FightStats(private val strength: Strength, private val hp: Hp, private val
 
     public fun getArmor(): Armor {
         return  armor
+    }
+
+    public fun allSpentLevelPoints(): Int {
+        return strength.getPointsFromLevelUp() + hp.getPointsFromLevelUp() + armor.getPointsFromLevelUp()
+    }
+
+    public fun addLevelUp(statsUp : StatsUp) {
+        strength.addWhenLevelUp(statsUp.getStrength())
+        hp.addWhenLevelUp(statsUp.getHp())
+        hp.hpRecovery(statsUp.getHp())
+        armor.addWhenLevelUp(statsUp.getArmor())
     }
 }

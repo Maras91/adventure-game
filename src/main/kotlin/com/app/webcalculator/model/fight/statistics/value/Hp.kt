@@ -6,7 +6,7 @@ class Hp (private val startValue : Int, private var items: Int, private var leve
         return items + startValue + level
     }
 
-    fun getHp () : Int {
+    fun getValue () : Int {
         return items + startValue + level - damage
     }
 
@@ -27,5 +27,9 @@ class Hp (private val startValue : Int, private var items: Int, private var leve
 
     public fun addFromItem (points : Int) {
         items = points
+    }
+
+    public fun getPointsFromLevelUp () : Int {
+        return level/10
     }
 }

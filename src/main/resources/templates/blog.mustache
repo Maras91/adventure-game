@@ -3,10 +3,32 @@
 <p>Gold: <span id ="amountOfGold">0</span></p>
 <p>Iron: <span id ="amountOfIron">0</span></p>
 <p>Meat: <span id ="amountOfMeat">0</span></p>
-<p>EXP: <span id ="experience">0</span>/<span id ='nextLevelExp'>1000</span> Level: <span id ="level">1</span></p>
-<p>Strength: <span id = "strength">7</span></p>
-<p>      HP: <span id = "hp">50</span>/<span id = "hpMax">50</span></p>
-<p>   Armor: <span id = "armor">3</span></p>
+<div class="row">
+    <div class="col-md-3 border">
+        <p>EXP: <span id ="experience">0</span>/<span id ='nextLevelExp'>1000</span> Level: <span id ="level">1</span></p>
+        <p>Strength: <span id = "strength">7</span></p>
+        <p>      HP: <span id = "hp">50</span>/<span id = "hpMax">50</span></p>
+        <p>   Armor: <span id = "armor">3</span></p>
+    </div>
+    <div class="col-md-3 border">
+        <p>Points <span id="levelUpPoints">0</span></p>
+        <p>
+            Strength + <span id = "addStrength">0</span>
+            <button onclick="plus('addStrength',1)">+</button>
+            <button onclick="minus('addStrength',1)">-</button>
+        </p>
+        <p>
+            &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;HP + <span id = "addHp">0</span>
+            <button onclick="plus('addHp',10)">+</button>
+            <button onclick="minus('addHp',10)">-</button></p>
+        <p>
+            &#160;&#160;&#160;&#160;Armor + <span id = "addArmor">0</span>
+            <button onclick="plus('addArmor',1)">+</button>
+            <button onclick="minus('addArmor',1)">-</button>
+        </p>
+        <button id="levelUp" onclick="levelUp()">Level Up!</button>
+    </div>
+</div>
 <button id="question" onclick="killGoblin()">Kill Goblin</button>
 <button id="potion" onclick="getPotion()">Get Potion</button>
 <p id ="messageAction"></p>

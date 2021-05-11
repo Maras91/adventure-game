@@ -1,6 +1,7 @@
 package com.app.webcalculator.model.fight.experience
 
 class Experience {
+    private val pointsPerLevel = 4
     private val levelExperienceRequired: List<Int> = listOf( 0, 1000, 3000, 5000, 8000, 11000, 15000, 19000, 24000, 30000, 38000)
     private val experience :MutableList<Int> = mutableListOf(0)
 
@@ -32,5 +33,9 @@ class Experience {
             }
         }
         return "Max"
+    }
+
+    public fun allStatsPointsToSpend() : Int {
+        return (calculateLevel(getValue()) -1) * pointsPerLevel
     }
 }
