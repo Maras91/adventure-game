@@ -30,6 +30,7 @@ class Hp (private val startValue : Int, private var items: Int, private var leve
     }
 
     public fun getPointsFromLevelUp () : Int {
+        //TODO Level points should be multiplied by 10 + add tests for this
         return level/10
     }
 }

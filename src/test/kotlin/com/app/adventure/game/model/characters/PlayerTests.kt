@@ -10,7 +10,6 @@ import com.app.adventure.game.model.resources.Resources
 import org.junit.jupiter.api.Test
 import org.springframework.test.util.AssertionErrors.assertEquals
 
-
 class PlayerTests {
 
     private val player : Player = Player(
@@ -26,9 +25,9 @@ class PlayerTests {
     fun statsUpNotValidTest () {
         //given
         val testPlayer : Player = player
-        testPlayer.getExperience().addExperience(1250)
         val statsUp : StatsUp = StatsUp(3,10,1)
         //when
+        testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
         //then
         assertEquals("",5,testPlayer.getFightStats().getStrength().getValue())
@@ -40,9 +39,9 @@ class PlayerTests {
     fun statsUpValidTest() {
         //given
         val testPlayer : Player = player
-        testPlayer.getExperience().addExperience(1250)
         val statsUp : StatsUp = StatsUp(2,10,1)
         //when
+        testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
         //then
         assertEquals("",7,testPlayer.getFightStats().getStrength().getValue())
@@ -61,5 +60,18 @@ class PlayerTests {
         assertEquals("",5,testPlayer.getFightStats().getStrength().getValue())
         assertEquals("",50,testPlayer.getFightStats().getHp().getValue())
         assertEquals("",3,testPlayer.getFightStats().getArmor().getValue())
+    }
+
+    @Test
+    fun increaseHpWhenPlayerDamaged() {
+        //given
+        val testPlayer : Player = player
+        val statsUp : StatsUp = StatsUp(1,20,1)
+        //when
+        testPlayer.getFightStats().takeDamage(13)
+        testPlayer.getExperience().addExperience(1250)
+        testPlayer.addStatsUp(statsUp)
+        //then
+        assertEquals("",57,testPlayer.getFightStats().getHp().getValue())
     }
 }

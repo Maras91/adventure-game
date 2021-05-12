@@ -46,7 +46,6 @@ class FightStats(private val strength: Strength, private val hp: Hp, private val
     public fun addLevelUp(statsUp : StatsUp) {
         strength.addWhenLevelUp(statsUp.getStrength())
         hp.addWhenLevelUp(statsUp.getHp())
-        hp.hpRecovery(statsUp.getHp())
         armor.addWhenLevelUp(statsUp.getArmor())
     }
 }
