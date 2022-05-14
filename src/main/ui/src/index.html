@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <title>THE GAME!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>THE GAME!</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Dungeon <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/town">Town</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <p>Gold: <span id ="amountOfGold">0</span></p>
+    <p>Iron: <span id ="amountOfIron">0</span></p>
+    <p>Meat: <span id ="amountOfMeat">0</span></p>
+    <div class="row">
+        <div class="col-md-3 border">
+            <p>EXP: <span id ="experience">0</span>/<span id ='nextLevelExp'>1000</span> Level: <span id ="level">1</span></p>
+            <p>Strength: <span id = "strength">7</span></p>
+            <p>      HP: <span id = "hp">50</span>/<span id = "hpMax">50</span></p>
+            <p>   Armor: <span id = "armor">3</span></p>
+        </div>
+        <div class="col-md-3 border">
+            <p>Points <span id="levelUpPoints">0</span></p>
+            <p>
+                Strength + <span id = "addStrength">0</span>
+                <button id = "plusStrength">+</button>
+                <button id = "minStrength">-</button>
+            </p>
+            <p>
+                &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;HP + <span id = "addHp">0</span>
+                <button id = "plusHp">+</button>
+                <button id = "minHp">-</button></p>
+            <p>
+                &#160;&#160;&#160;&#160;Armor + <span id = "addArmor">0</span>
+                <button id = "plusArmor">+</button>
+                <button id = "minArmor">-</button>
+            </p>
+            <button id="levelUp">Level Up!</button>
+        </div>
+    </div>
+    <button id="attack">Kill Goblin</button>
+    <button id="potion">Get Potion</button>
+    <p id ="messageAction"></p>
+    <script src="js/fight.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/eventlistener.js"></script>
+</body>
+</html>

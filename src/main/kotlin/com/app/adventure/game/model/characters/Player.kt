@@ -34,5 +34,4 @@ class Player(private var resources: Resources, private var fightStats: FightStat
         return statsUp.isValid() && getExperience().allStatsPointsToSpend() >= getFightStats().allSpentLevelPoints() + statsUp.getAllPoints()
     }
 
-
 }

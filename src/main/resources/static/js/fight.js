@@ -47,26 +47,50 @@ function killGoblin() {
 }
 
 function getPotion() {
-       let xhr = new XMLHttpRequest();
-        let url = "getPotion";
+    let xhr = new XMLHttpRequest();
+    let url = "getPotion";
 
-        // open a connection
-        xhr.open("POST", url, true);
+    // open a connection
+    xhr.open("POST", url, true);
 
-        // Set the request header i.e. which type of content you are sending
-        xhr.setRequestHeader("Content-Type", "application/json");
+    // Set the request header i.e. which type of content you are sending
+    xhr.setRequestHeader("Content-Type", "application/json");
 
-        // Create a state change callback
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(this.responseText);
-                document.getElementById("hp").innerHTML = response.fightStatsView.hp;
-                document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
-                document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
-                document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
-            }
-        };
+    // Create a state change callback
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(this.responseText);
+            document.getElementById("hp").innerHTML = response.fightStatsView.hp;
+            document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
+            document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
+            document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
+        }
+    };
 
-         xhr.send();
+     xhr.send();
 
+}
+
+function adventureStats() {
+     let xhr = new XMLHttpRequest();
+     let url = "adventureStats";
+     xhr.open("POST", url, true);
+     xhr.setRequestHeader("Content-Type", "application/json");
+     xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4 && xhr.status === 200) {
+             var response = JSON.parse(this.responseText);
+             document.getElementById("strength").innerHTML = response.fightStatsView.strength;
+             document.getElementById("hp").innerHTML = response.fightStatsView.hp;
+             document.getElementById("hpMax").innerHTML = response.fightStatsView.hpMax;
+             document.getElementById("armor").innerHTML = response.fightStatsView.armor;
+             document.getElementById("experience").innerHTML = response.experienceView.value;
+             document.getElementById("nextLevelExp").innerHTML = response.experienceView.nextLevelExp;
+             document.getElementById("level").innerHTML = response.experienceView.level;
+             document.getElementById("levelUpPoints").innerHTML = response.levelUpPoints;
+             document.getElementById("amountOfGold").innerHTML = response.resourcesView.gold;
+             document.getElementById("amountOfIron").innerHTML = response.resourcesView.iron;
+             document.getElementById("amountOfMeat").innerHTML = response.resourcesView.meat;
+         }
+     };
+     xhr.send();
 }

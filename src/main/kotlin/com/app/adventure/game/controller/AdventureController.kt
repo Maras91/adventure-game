@@ -22,23 +22,16 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
+import javax.annotation.Resource
 
 @Controller
-class HtmlController {
+class AdventureController {
 
     @Autowired
     private lateinit var combatSimulator: CombatSimulator
 
-
-    var player : Player = Player(Resources(0.0,0.0,0.0),
-            FightStats(Strength(7,0,0),
-                    Hp(50,0,0,0),
-                    Armor(3,0,0)), Experience())
-
-    @GetMapping("/")
-    fun start(): String {
-        return "blog"
-    }
+    @Autowired
+    private lateinit var player : Player
 
     @PostMapping("/fight",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
@@ -57,16 +50,11 @@ class HtmlController {
 
     @PostMapping("/getPotion")
     @ResponseBody
-    fun getPotion () : PlayerView {
+    fun getPotion() : PlayerView {
         val potionJsonObject : PotionJsonObject = PotionJsonObject()
         player.getResources().payGold(potionJsonObject.cost)
         player.getFightStats().hpRecovery(potionJsonObject.hpRecovery)
-        return PlayerView(
-                FightStatsView(player.getFightStats()),
-                ResourcesView(player.getResources()),
-                ExperienceView(player.getExperience()),
-                player.getExperience().allStatsPointsToSpend() -
-                        player.getFightStats().allSpentLevelPoints())
+        return getPlayer()
     }
 
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -74,6 +62,17 @@ class HtmlController {
     fun levelUp(@RequestBody statsUp : StatsUp) : FightStatsView {
         player.addStatsUp(statsUp)
         return FightStatsView(player.getFightStats())
+    }
+
+    @PostMapping("/adventureStats")
+    @ResponseBody
+    fun getPlayer() : PlayerView {
+        return PlayerView(
+            FightStatsView(player.getFightStats()),
+            ResourcesView(player.getResources()),
+            ExperienceView(player.getExperience()),
+            player.getExperience().allStatsPointsToSpend() -
+                    player.getFightStats().allSpentLevelPoints())
     }
 }
 
