@@ -1,16 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-import React from 'react';
-import PlayerStatsView from './components/PlayerStatsView'
+import React, {useState, useEffect} from 'react';
+import AdventureView from './components/AdventureView'
 
-class App extends React.Component{
-    render() {
+function App (){
         return (
         <div className="App">
-            <PlayerStatsView />
+          <AdventureView />
         </div>
         );
-    }
 }
 
 export default App;
