@@ -1,0 +1,33 @@
+player:
+  resources:
+    gold: 1.3
+    iron: 1.5
+    meat: 1.2
+  statistics:
+    strength: 5
+    armor: 3
+    maxHP: 50
+battle:
+  monsters:
+    -
+      name: goblin
+      resources:
+        gold: 4
+        iron: 0
+        meat: 2
+      statistics:
+        strength: 5
+        armor: 3
+        maxHP: 25
+      experience: 100
+    -
+      name: orc
+      resources:
+        gold: 15
+        iron: 3
+        meat: 5
+      statistics:
+        strength: 10
+        armor: 5
+        maxHP: 75
+      experience: 750

@@ -14,7 +14,7 @@ function ActionsView ({updateFunction}) {
                 "iron": 1,
                 "meat": 6
               },
-              "experience" : 500
+              "experience" : 100
           })
     };
     const attackGoblin = () => {
