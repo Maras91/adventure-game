@@ -1,30 +1,33 @@
+import React, {useState, useEffect} from 'react';
+import _ from 'lodash';
+
 function ActionsView ({updateFunction}) {
-    const requestFightOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            "fightStats": {
-                "strength": 5,
-                "hp": 25,
-                "hpMax":25,
-                "armor": 3
-              },
-              "resources": {
-                "gold": 4,
-                "iron": 1,
-                "meat": 6
-              },
-              "experience" : 100
-          })
-    };
-    const attackGoblin = () => {
-        fetch('/fight', requestFightOptions).then(response => updateFunction());
+    const [monsterNames, setMonsterNames] = useState([])
+
+    function getAllMonstersName() {
+        fetch('/allMonsters',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => response.json()).then(data => {
+            setMonsterNames(data);
+        });
     }
 
-    function delay(time) {
-      return new Promise(resolve => setTimeout(resolve, time));
-    }
+    useEffect(() => {
+        getAllMonstersName();
+    }, []);
 
+    const attackMonster = (name) => {
+        fetch('/fight',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: name
+        }
+        ).then(response => updateFunction());
+        console.log("you are attacked ",name);
+    }
     const drinkPotion = () => {
         fetch('/getPotion',
         {
@@ -32,9 +35,11 @@ function ActionsView ({updateFunction}) {
             headers: { 'Content-Type': 'application/json' }
         }).then(response => updateFunction());
     }
+    console.log("actions render",monsterNames);
     return (
        <div>
-           <button type="button" onClick={attackGoblin}>Kill Goblin</button>
+            {monsterNames.map((name) => <button  type="button" key={name} onClick={() => attackMonster(name)}>Kill {name}</button>)}
+            <br />
            <button type="button" onClick={drinkPotion}>Drink Potion</button>
        </div>
     );

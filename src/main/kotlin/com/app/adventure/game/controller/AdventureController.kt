@@ -4,6 +4,7 @@ import com.app.adventure.game.model.characters.Monster
 import com.app.adventure.game.model.fight.statistics.FightStats
 import com.app.adventure.game.model.resources.Resources
 import com.app.adventure.game.model.characters.Player
+import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
 import com.app.adventure.game.model.fight.experience.Experience
@@ -31,16 +32,21 @@ class AdventureController {
     private lateinit var combatSimulator: CombatSimulator
 
     @Autowired
+    private lateinit var battleProperties: BattleProperties
+
+    @Autowired
     private lateinit var player : Player
 
     @PostMapping("/fight",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun fight(@RequestBody monster : Monster): PlayerView {
-        val hpLeft : Int = combatSimulator.fight(player,monster.getFightStats())
-        if (hpLeft >0) {
-            player.win(monster)
+    fun fight(@RequestBody monsterName : String): PlayerView {
+        val monster = battleProperties.monsters[monsterName]
+        if (monster != null) {
+            val hpLeft : Int = combatSimulator.fight(player,monster.getFightStats())
+            if (hpLeft >0) {
+                player.win(monster)
+            }
         }
-
         return PlayerView(FightStatsView(player.getFightStats()),
                 ResourcesView(player.getResources()),
                 ExperienceView(player.getExperience()),
@@ -73,6 +79,12 @@ class AdventureController {
             ExperienceView(player.getExperience()),
             player.getExperience().allStatsPointsToSpend() -
                     player.getFightStats().allSpentLevelPoints())
+    }
+
+    @PostMapping("/allMonsters")
+    @ResponseBody
+    fun getAllMonsters() : List<String> {
+        return battleProperties.monsters.keys.toList()
     }
 }
 

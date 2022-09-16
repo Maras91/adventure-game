@@ -7,8 +7,8 @@ import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.resources.Resources
-import com.app.adventure.game.model.yml.PlayerStartResourcesValues
-import com.app.adventure.game.model.yml.PlayerStartStatisticsValues
+import com.app.adventure.game.model.yml.properties.PlayerResourcesValuesYml
+import com.app.adventure.game.model.yml.properties.PlayerStatisticsValuesYml
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,10 +17,10 @@ import org.springframework.context.annotation.Configuration
 class PlayerConfig {
 
     @Autowired
-    private lateinit var startStatsValues: PlayerStartStatisticsValues;
+    private lateinit var startStatsValues: PlayerStatisticsValuesYml;
 
     @Autowired
-    private lateinit var startResourcesValues: PlayerStartResourcesValues
+    private lateinit var startResourcesValues: PlayerResourcesValuesYml
 
     @Bean
     fun createPlayer() : Player {

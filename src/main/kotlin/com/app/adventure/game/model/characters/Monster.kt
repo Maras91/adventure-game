@@ -8,11 +8,11 @@ class Monster(fightStats : FightStatsView, resources : ResourcesView, experience
     private val resources : ResourcesView = resources
     private val experience : Int = experience
 
-    public fun getResources() : ResourcesView {
+    fun getResources() : ResourcesView {
         return resources
     }
 
-    public fun getFightStats() : FightStatsView {
+    fun getFightStats() : FightStatsView {
         return fightStats
     }
 
