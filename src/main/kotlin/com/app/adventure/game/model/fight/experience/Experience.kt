@@ -1,25 +1,26 @@
 package com.app.adventure.game.model.fight.experience
 
-class Experience {
-    private val pointsPerLevel = 4
-    private val levelExperienceRequired: List<Int> = listOf( 0, 1000, 3000, 5000, 8000, 11000, 15000, 19000, 24000, 30000, 38000)
+import org.springframework.beans.factory.annotation.Autowired
+
+class Experience @Autowired constructor(val levelProperties: LevelProperties){
+
     private val experience :MutableList<Int> = mutableListOf(0)
 
-    public fun addExperience (experience : Int) {
+    fun addExperience (experience : Int) {
         this.experience.add(experience)
     }
 
-    public fun getValue(): Int {
+    fun getValue(): Int {
         return experience.reduce{x, x2->x+x2}
     }
 
-    public fun calculateLevel(experience :Int) : Int {
-        for (requirementExperience in  levelExperienceRequired) {
+    fun calculateLevel(experience :Int) : Int {
+        for (requirementExperience in  levelProperties.experienceRequiredPerLevel) {
             if (experience < requirementExperience) {
-                return levelExperienceRequired.indexOf(requirementExperience)
+                return levelProperties.experienceRequiredPerLevel.indexOf(requirementExperience)+1
             }
         }
-        return levelExperienceRequired.size
+        return levelProperties.experienceRequiredPerLevel.size+1
     }
 
     fun isNextLevel (experience :Int) :Boolean {
@@ -27,7 +28,7 @@ class Experience {
     }
 
     fun nextLevelExperience() : String {
-        for (requirementExperience in  levelExperienceRequired) {
+        for (requirementExperience in  levelProperties.experienceRequiredPerLevel) {
             if (getValue() < requirementExperience) {
                 return requirementExperience.toString()
             }
@@ -35,7 +36,7 @@ class Experience {
         return "Max"
     }
 
-    public fun allStatsPointsToSpend() : Int {
-        return (calculateLevel(getValue()) -1) * pointsPerLevel
+    fun allStatsPointsToSpend() : Int {
+        return (calculateLevel(getValue()) -1) * levelProperties.pointsPerLevel
     }
 }

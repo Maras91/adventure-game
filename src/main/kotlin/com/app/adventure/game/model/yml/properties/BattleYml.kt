@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "battle")
 data class BattleYml (var monsters: List<MonsterYml>?) {
 
-
     data class MonsterYml (var statistics: MonsterStatisticsValues?, var resources: MonsterResourcesValues?,
                            var name: String?, var experience: Int?){
         constructor() : this(null,null,"",0)

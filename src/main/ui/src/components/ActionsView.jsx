@@ -18,7 +18,7 @@ function ActionsView ({updateFunction}) {
         getAllMonstersName();
     }, []);
 
-    const attackMonster = (name) => {
+    function attackMonster(name){
         fetch('/fight',
         {
             method: 'POST',

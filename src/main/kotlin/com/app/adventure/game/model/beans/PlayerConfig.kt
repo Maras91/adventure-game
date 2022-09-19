@@ -2,6 +2,7 @@ package com.app.adventure.game.model.beans
 
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.fight.experience.Experience
+import com.app.adventure.game.model.fight.experience.LevelProperties
 import com.app.adventure.game.model.fight.statistics.FightStats
 import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
@@ -14,14 +15,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class PlayerConfig {
-
-    @Autowired
-    private lateinit var startStatsValues: PlayerStatisticsValuesYml;
-
-    @Autowired
-    private lateinit var startResourcesValues: PlayerResourcesValuesYml
-
+class PlayerConfig @Autowired constructor (
+        val startStatsValues: PlayerStatisticsValuesYml,
+        val startResourcesValues: PlayerResourcesValuesYml,
+        val levelProperties: LevelProperties
+    )
+{
     @Bean
     fun createPlayer() : Player {
         return Player(
@@ -32,7 +31,7 @@ class PlayerConfig {
                 Strength(startStatsValues.strength ?:0,0,0),
                 Hp(startStatsValues.maxHP ?: 0,0,0,0),
                 Armor(startStatsValues.armor ?: 0,0,0)
-            ), Experience()
+            ), Experience(levelProperties)
         )
     }
 

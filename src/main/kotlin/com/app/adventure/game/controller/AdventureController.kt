@@ -26,16 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody
 import javax.annotation.Resource
 
 @Controller
-class AdventureController {
-
-    @Autowired
-    private lateinit var combatSimulator: CombatSimulator
-
-    @Autowired
-    private lateinit var battleProperties: BattleProperties
-
-    @Autowired
-    private lateinit var player : Player
+class AdventureController @Autowired constructor(
+    val combatSimulator: CombatSimulator,
+    val battleProperties: BattleProperties,
+    var player : Player
+    )
+{
 
     @PostMapping("/fight",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody

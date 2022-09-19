@@ -12,29 +12,27 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BattleConfig {
-
-    @Autowired
-    private lateinit var battleConfigYml: BattleYml
+class BattleConfig @Autowired constructor( val battleConfigYml: BattleYml ) {
 
     @Bean
     fun createBattleProperties() : BattleProperties{
         val monsters: Map<String,Monster> =
-            battleConfigYml.monsters?.filter { monster -> monster.name != null }?.associate {it.name!! to
-                    Monster(
-                        FightStatsView(
-                            it.statistics?.strength ?: 0,
-                            it.statistics?.maxHP ?: 0,
-                            it.statistics?.maxHP ?: 0,
-                            it.statistics?.armor ?: 0
-                        ),
-                        ResourcesView(
-                            it.resources?.gold ?: 0.0,
-                            it.resources?.iron ?: 0.0,
-                            it.resources?.meat ?: 0.0
-                        ),
-                        it.experience ?: 0
-                    )
+            battleConfigYml.monsters?.filter { monster -> monster.name != null }?.associate {
+                it.name!! to
+                        Monster(
+                            FightStatsView(
+                                it.statistics?.strength ?: 0,
+                                it.statistics?.maxHP ?: 0,
+                                it.statistics?.maxHP ?: 0,
+                                it.statistics?.armor ?: 0
+                            ),
+                            ResourcesView(
+                                it.resources?.gold ?: 0.0,
+                                it.resources?.iron ?: 0.0,
+                                it.resources?.meat ?: 0.0
+                            ),
+                            it.experience ?: 0
+                        )
             } ?: emptyMap()
         return BattleProperties(monsters)
     }

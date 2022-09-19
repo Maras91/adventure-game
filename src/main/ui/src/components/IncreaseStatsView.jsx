@@ -8,10 +8,10 @@ function IncreaseStats ({updateFunction, levelUpPoints}) {
         armor: 0,
         strength: 0
     });
-
+    const HP_PER_POINT = 10
     let varStats = _.cloneDeep(stats);
          useEffect(() => {
-                varStats.pointsToSpend = levelUpPoints;
+                varStats.pointsToSpend = levelUpPoints-stats.hp/HP_PER_POINT-stats.armor-stats.strength;
                 setStats(varStats);
             }, [levelUpPoints]);
     function changeStrength(operation: String) {
@@ -26,10 +26,10 @@ function IncreaseStats ({updateFunction, levelUpPoints}) {
     }
     function changeHp(operation: String) {
         if (operation == "+" && stats.pointsToSpend>0) {
-            varStats.hp = varStats.hp+10;
+            varStats.hp = varStats.hp+HP_PER_POINT;
             varStats.pointsToSpend--;
         } else if (operation == "-" && stats.hp>0) {
-            varStats.hp = varStats.hp-10;
+            varStats.hp = varStats.hp-HP_PER_POINT;
             varStats.pointsToSpend++;
         }
         setStats(varStats);

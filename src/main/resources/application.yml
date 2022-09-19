@@ -4,8 +4,8 @@ player:
     iron: 1.5
     meat: 1.2
   statistics:
-    strength: 5
-    armor: 3
+    strength: 7
+    armor: 5
     maxHP: 50
 battle:
   monsters:
@@ -19,7 +19,7 @@ battle:
         strength: 5
         armor: 3
         maxHP: 25
-      experience: 100
+      experience: 550
     -
       name: orc
       resources:
@@ -31,3 +31,16 @@ battle:
         armor: 5
         maxHP: 75
       experience: 750
+level:
+  points-per-level: 4
+  experience-required-per-level:
+   - 1000
+   - 3000
+   - 5000
+   - 8000
+   - 11000
+   - 15000
+   - 19000
+   - 24000
+   - 30000
+   - 38000

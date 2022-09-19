@@ -1,6 +1,7 @@
 package com.app.adventure.game.model.characters
 
 import com.app.adventure.game.model.fight.experience.Experience
+import com.app.adventure.game.model.fight.experience.LevelProperties
 import com.app.adventure.game.model.fight.experience.StatsUp
 import com.app.adventure.game.model.fight.statistics.FightStats
 import com.app.adventure.game.model.fight.statistics.value.Armor
@@ -9,6 +10,7 @@ import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.resources.Resources
 import org.junit.jupiter.api.Test
 import org.springframework.test.util.AssertionErrors.assertEquals
+import java.util.*
 
 class PlayerTests {
 
@@ -19,7 +21,7 @@ class PlayerTests {
                     Hp(50,0,0,0),
                     Armor(3,0,0)
             ),
-            Experience())
+            Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
 
     @Test
     fun statsUpNotValidTest () {
