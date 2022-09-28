@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.test.util.AssertionErrors.assertEquals
 import java.util.*
 
-class PlayerTests {
+class ExperienceTests {
 
     private val player : Player = Player(
             Resources(0.0,0.0,0.0),

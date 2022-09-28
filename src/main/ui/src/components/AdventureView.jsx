@@ -4,6 +4,7 @@ import ExperienceView from './ExperienceView';
 import ResourcesView from './ResourcesView';
 import IncreaseStats from './IncreaseStatsView';
 import ActionsView from './ActionsView';
+import ItemsView from './ItemsView'
 import _ from 'lodash';
 
 function AdventureView(){
@@ -57,6 +58,9 @@ function AdventureView(){
             </div>
             <div className="col-md-3 border">
                 <IncreaseStats updateFunction={getStatsData} levelUpPoints={stats.levelUpPoints} />
+            </div>
+            <div className="col-md-3 border">
+                <ItemsView updateFunction={getStatsData} />
             </div>
             <ActionsView updateFunction={getStatsData} />
         </div>

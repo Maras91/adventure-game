@@ -44,3 +44,19 @@ level:
    - 24000
    - 30000
    - 38000
+items:
+  disposable:
+    -
+      name: "small potion"
+      bay-cost: 3.0
+      sell-cost: 2.0
+      has-permanent-effect: true
+      attributes:
+        hp-recovery: 15
+    -
+      name: "large potion"
+      bay-cost: 4.0
+      sell-cost: 2.0
+      has-permanent-effect: true
+      attributes:
+        hp-recovery: 20

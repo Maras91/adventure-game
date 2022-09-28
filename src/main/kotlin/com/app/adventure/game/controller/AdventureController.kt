@@ -1,41 +1,34 @@
 package com.app.adventure.game.controller
 
-import com.app.adventure.game.model.characters.Monster
-import com.app.adventure.game.model.fight.statistics.FightStats
-import com.app.adventure.game.model.resources.Resources
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
-import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.StatsUp
-import com.app.adventure.game.model.fight.statistics.value.Armor
-import com.app.adventure.game.model.fight.statistics.value.Hp
-import com.app.adventure.game.model.fight.statistics.value.Strength
-import com.app.adventure.game.model.item.PotionJsonObject
+import com.app.adventure.game.model.item.DisposableItem
+import com.app.adventure.game.model.item.ItemAttribute
 import com.app.adventure.game.view.ExperienceView
 import com.app.adventure.game.view.FightStatsView
 import com.app.adventure.game.view.ResourcesView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
-import javax.annotation.Resource
 
 @Controller
 class AdventureController @Autowired constructor(
     val combatSimulator: CombatSimulator,
     val battleProperties: BattleProperties,
-    var player : Player
+    var player : Player,
+    val items : Map<String,DisposableItem>
     )
 {
 
     @PostMapping("/fight",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun fight(@RequestBody monsterName : String): PlayerView {
+    fun fight(@RequestBody monsterName : String) {
         val monster = battleProperties.monsters[monsterName]
         if (monster != null) {
             val hpLeft : Int = combatSimulator.fight(player,monster.getFightStats())
@@ -43,21 +36,26 @@ class AdventureController @Autowired constructor(
                 player.win(monster)
             }
         }
-        return PlayerView(FightStatsView(player.getFightStats()),
-                ResourcesView(player.getResources()),
-                ExperienceView(player.getExperience()),
-                player.getExperience().allStatsPointsToSpend() -
-                        player.getFightStats().allSpentLevelPoints())
     }
 
-    @PostMapping("/getPotion")
+    @PostMapping("/getItems")
     @ResponseBody
-    fun getPotion() : PlayerView {
-        val potionJsonObject : PotionJsonObject = PotionJsonObject()
-        player.getResources().payGold(potionJsonObject.cost)
-        player.getFightStats().hpRecovery(potionJsonObject.hpRecovery)
-        return getPlayer()
+    fun getAllItems(): List<String> {
+        return items.keys.toList()
     }
+
+    @PostMapping("/buyItem")
+    @ResponseBody
+    fun buyItems(@RequestBody name :String) {
+        val item :DisposableItem? = items[name];
+        if (item != null) {
+            if (item.attributes.containsKey(ItemAttribute.HP_RECOVERY)) {
+                player.getResources().payGold(item.bayCost)
+                player.getFightStats().hpRecovery(item.attributes[ItemAttribute.HP_RECOVERY] ?: 0)
+            }
+        }
+    }
+
 
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody

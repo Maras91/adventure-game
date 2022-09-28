@@ -14,9 +14,7 @@ function ActionsView ({updateFunction}) {
         });
     }
 
-    useEffect(() => {
-        getAllMonstersName();
-    }, []);
+    useEffect(getAllMonstersName, []);
 
     function attackMonster(name){
         fetch('/fight',
@@ -26,7 +24,6 @@ function ActionsView ({updateFunction}) {
             body: name
         }
         ).then(response => updateFunction());
-        console.log("you are attacked ",name);
     }
     const drinkPotion = () => {
         fetch('/getPotion',
@@ -35,12 +32,9 @@ function ActionsView ({updateFunction}) {
             headers: { 'Content-Type': 'application/json' }
         }).then(response => updateFunction());
     }
-    console.log("actions render",monsterNames);
     return (
        <div>
             {monsterNames.map((name) => <button  type="button" key={name} onClick={() => attackMonster(name)}>Kill {name}</button>)}
-            <br />
-           <button type="button" onClick={drinkPotion}>Drink Potion</button>
        </div>
     );
 
