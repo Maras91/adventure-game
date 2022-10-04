@@ -1,34 +1,26 @@
 package com.app.adventure.game.model.fight.experience
 
 
-class StatsUp {
+class StatsUp(private val strength: Int, private val hp: Int, private val armor: Int) {
+
     private val HP_PER_LEVEL : Int = 10
-    private val strength :Int
-    private val hp :Int
-    private val armor :Int
 
-    constructor(strength: Int, hp: Int, armor: Int) {
-        this.strength = strength
-        this.hp = hp
-        this.armor = armor
-    }
-
-    public fun getStrength() : Int {
+    fun getStrength() : Int {
         return strength
     }
 
-    public fun getHp(): Int {
+    fun getHp(): Int {
         return  hp
     }
 
-    public fun getArmor(): Int {
+    fun getArmor(): Int {
         return  armor
     }
 
-    public fun getAllPoints() :Int {
+    fun getAllPoints() :Int {
         return strength+hp/HP_PER_LEVEL+armor
     }
-    public fun isValid() : Boolean {
+    fun isValid() : Boolean {
         return strength >= 0 && armor >= 0 && hp >= 0
     }
 }

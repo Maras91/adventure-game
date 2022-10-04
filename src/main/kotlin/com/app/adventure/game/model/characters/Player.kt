@@ -7,24 +7,24 @@ import com.app.adventure.game.model.resources.Resources
 
 class Player(private var resources: Resources, private var fightStats: FightStats, private var experience: Experience) {
 
-    public fun getResources() : Resources {
+    fun getResources() : Resources {
         return resources
     }
 
-    public fun getFightStats() : FightStats {
+    fun getFightStats() : FightStats {
         return fightStats
     }
 
-    public fun getExperience() : Experience {
+    fun getExperience() : Experience {
         return experience
     }
 
-    public fun win(monster : Monster) {
+    fun win(monster : Monster) {
         getResources().addResources(monster.getResources())
         getExperience().addExperience(monster.getExperience())
     }
 
-    public fun addStatsUp(statsUp: StatsUp) {
+    fun addStatsUp(statsUp: StatsUp) {
         if (isStatsUpValid(statsUp)) {
             getFightStats().addLevelUp(statsUp)
         }

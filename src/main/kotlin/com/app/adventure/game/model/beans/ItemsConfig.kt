@@ -17,16 +17,16 @@ class ItemsConfig @Autowired constructor(val disposableItemsYml :DisposableItems
         return disposableItemsYml.disposable
             ?.filter { monster -> monster?.name != null }
             ?.associate { itemYml -> itemYml?.name!! to DisposableItem(
-            itemYml.attributes?.mapKeys {
+                itemYml.hasPermanentEffect ?: false,
+                itemYml.timeInTurns ?: 0,
+                itemYml.attributes?.mapKeys {
                     ymlAt -> ItemAttribute.values().find {
                         it.attributeName == ymlAt.key.toLowerCase()
                     }?: ItemAttribute.NOT_DEFINE
-            } ?: emptyMap(),
-            itemYml.hasPermanentEffect ?: false,
-            itemYml.timeInTurns ?: 0,
-            itemYml.name ?: "",
-            itemYml.bayCost ?: 0.0,
-            itemYml.sellCost ?: 0.0
+                } ?: emptyMap(),
+                itemYml.name ?: "",
+                itemYml.bayCost ?: 0.0,
+                itemYml.sellCost ?: 0.0
             )} ?: emptyMap()
     }
 }

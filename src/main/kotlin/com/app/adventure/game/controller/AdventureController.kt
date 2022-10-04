@@ -22,7 +22,6 @@ class AdventureController @Autowired constructor(
     val combatSimulator: CombatSimulator,
     val battleProperties: BattleProperties,
     var player : Player,
-    val items : Map<String,DisposableItem>
     )
 {
 
@@ -37,25 +36,6 @@ class AdventureController @Autowired constructor(
             }
         }
     }
-
-    @PostMapping("/getItems")
-    @ResponseBody
-    fun getAllItems(): List<String> {
-        return items.keys.toList()
-    }
-
-    @PostMapping("/buyItem")
-    @ResponseBody
-    fun buyItems(@RequestBody name :String) {
-        val item :DisposableItem? = items[name];
-        if (item != null) {
-            if (item.attributes.containsKey(ItemAttribute.HP_RECOVERY)) {
-                player.getResources().payGold(item.bayCost)
-                player.getFightStats().hpRecovery(item.attributes[ItemAttribute.HP_RECOVERY] ?: 0)
-            }
-        }
-    }
-
 
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody

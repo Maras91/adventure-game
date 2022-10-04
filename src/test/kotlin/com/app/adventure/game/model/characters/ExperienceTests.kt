@@ -17,9 +17,9 @@ class ExperienceTests {
     private val player : Player = Player(
             Resources(0.0,0.0,0.0),
             FightStats(
-                    Strength(5,0,0),
-                    Hp(50,0,0,0),
-                    Armor(3,0,0)
+                    Strength(5),
+                    Hp(50),
+                    Armor(3)
             ),
             Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import _ from 'lodash';
 
 function ItemsView({updateFunction}){
-    const [items, setItems] = useState([])
+    const [items, setItems] = useState(new Map())
     function getItems() {
         const requestOptions = {
             method: 'POST',
@@ -13,7 +13,7 @@ function ItemsView({updateFunction}){
                                headers: { 'Content-Type': 'application/json' }
                            })
             .then(response => response.json())
-            .then(data => setItems(data))
+            .then(data => setItems(...items,data))
             .then(updateFunction())
     }
     useEffect(getItems,[])
@@ -24,14 +24,15 @@ function ItemsView({updateFunction}){
                              body: name
                            }).then(response => updateFunction())
     }
-
+    console.log(items)
     return(
         <>
         <h3>Shop:</h3>
         {
-            items.map((name) =>
+            Object.entries(items).map(([name,item]) =>
             <p key={name}>
-                <img src="/images/buy_button.png" onClick = {() => displayName(name)} style={{wight: 25}, {height: 25}} alt="images" /> {name}
+                <img src="/images/buy_button.png" onClick = {() => displayName(name)} style={{wight: 25}, {height: 25}} alt="images" />
+                 {name} ${item.bayCost} gold
             </p>)
         }
         </>

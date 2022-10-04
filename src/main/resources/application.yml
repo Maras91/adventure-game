@@ -55,8 +55,8 @@ items:
         hp-recovery: 15
     -
       name: "large potion"
-      bay-cost: 4.0
-      sell-cost: 2.0
+      bay-cost: 10.0
+      sell-cost: 4.0
       has-permanent-effect: true
       attributes:
         hp-recovery: 20

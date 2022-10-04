@@ -28,9 +28,9 @@ class PlayerConfig @Autowired constructor (
                 startResourcesValues.iron ?: 0.0,
                 startResourcesValues.meat ?: 0.0),
             FightStats(
-                Strength(startStatsValues.strength ?:0,0,0),
-                Hp(startStatsValues.maxHP ?: 0,0,0,0),
-                Armor(startStatsValues.armor ?: 0,0,0)
+                Strength(startStatsValues.strength ?:0),
+                Hp(startStatsValues.maxHP ?: 0),
+                Armor(startStatsValues.armor ?: 0)
             ), Experience(levelProperties)
         )
     }
