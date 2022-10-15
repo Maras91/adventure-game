@@ -1,9 +1,7 @@
 package com.app.adventure.game.model.fight
 
-import com.app.adventure.game.model.yml.properties.BattleYml
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.view.FightStatsView
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service

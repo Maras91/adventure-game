@@ -8,17 +8,17 @@ import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.resources.Resources
-import com.app.adventure.game.model.yml.properties.PlayerResourcesValuesYml
-import com.app.adventure.game.model.yml.properties.PlayerStatisticsValuesYml
+import com.app.adventure.game.model.yaml.properties.PlayerResourcesValuesYaml
+import com.app.adventure.game.model.yaml.properties.PlayerStatisticsValuesYaml
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class PlayerConfig @Autowired constructor (
-        val startStatsValues: PlayerStatisticsValuesYml,
-        val startResourcesValues: PlayerResourcesValuesYml,
-        val levelProperties: LevelProperties
+    val startStatsValues: PlayerStatisticsValuesYaml,
+    val startResourcesValues: PlayerResourcesValuesYaml,
+    val levelProperties: LevelProperties
     )
 {
     @Bean

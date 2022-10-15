@@ -2,7 +2,8 @@ package com.app.adventure.game.controller
 
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.item.DisposableItem
-import com.app.adventure.game.model.item.ItemAttribute
+import com.app.adventure.game.model.item.Item
+import com.app.adventure.game.model.item.NotDisposableItem
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,22 +13,29 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class ItemsController @Autowired constructor(
     var player : Player,
-    val items : Map<String,DisposableItem>
+    val disposableItems : Map<String,DisposableItem>,
+    val notDisposableItems : Map<String, NotDisposableItem>
 )
 {
-    @PostMapping("/getItems")
+    @PostMapping("/getDisposableItems")
     @ResponseBody
-    fun getAllItems(): Map<String,DisposableItem> {
-        return items
+    fun getAllDisposableItems(): Map<String,DisposableItem> {
+        return disposableItems
+    }
+
+    @PostMapping("/getAllItems")
+    @ResponseBody
+    fun getAllItems(): Map<String, Item> {
+        return notDisposableItems.plus(disposableItems)
     }
 
     @PostMapping("/buyItem")
     @ResponseBody
     fun buyItems(@RequestBody name :String) {
-        val item : DisposableItem? = items[name];
+        val item : Item? = notDisposableItems.plus(disposableItems)[name];
         if (item != null && item.bayCost <= player.getResources().getGold()) {
             player.getResources().payGold(item.bayCost)
-            player.getFightStats().addStatsFromDisposableItem(item)
+            player.getFightStats().addStatsFromItem(item)
         }
     }
 }

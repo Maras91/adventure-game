@@ -27,7 +27,7 @@ class ExperienceTests {
     fun statsUpNotValidTest () {
         //given
         val testPlayer : Player = player
-        val statsUp : StatsUp = StatsUp(3,10,1)
+        val statsUp = StatsUp(3,10,1)
         //when
         testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
@@ -41,7 +41,7 @@ class ExperienceTests {
     fun statsUpValidTest() {
         //given
         val testPlayer : Player = player
-        val statsUp : StatsUp = StatsUp(2,10,1)
+        val statsUp = StatsUp(2,10,1)
         //when
         testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
@@ -55,7 +55,7 @@ class ExperienceTests {
     fun playerWithNotEnoughExperienceTest () {
         //given
         val testPlayer : Player = player
-        val statsUp : StatsUp = StatsUp(2,10,1)
+        val statsUp = StatsUp(2,10,1)
         //when
         testPlayer.addStatsUp(statsUp)
         //then

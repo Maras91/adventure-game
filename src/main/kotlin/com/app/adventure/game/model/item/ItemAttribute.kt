@@ -4,6 +4,5 @@ enum class ItemAttribute (val attributeName: String){
     STRENGTH("strength"),
     ARMOR("armor"),
     HP("hp"),
-    HP_RECOVERY("hp-recovery"),
-    NOT_DEFINE("not define")
+    HP_RECOVERY("hp-recovery")
 }

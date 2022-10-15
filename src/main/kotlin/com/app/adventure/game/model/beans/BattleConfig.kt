@@ -2,17 +2,16 @@ package com.app.adventure.game.model.beans
 
 import com.app.adventure.game.model.characters.Monster
 import com.app.adventure.game.model.fight.BattleProperties
-import com.app.adventure.game.model.yml.properties.BattleYml
+import com.app.adventure.game.model.yaml.properties.BattleYaml
 import com.app.adventure.game.view.FightStatsView
 import com.app.adventure.game.view.ResourcesView
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.batch.BatchProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BattleConfig @Autowired constructor( val battleConfigYml: BattleYml ) {
+class BattleConfig @Autowired constructor( val battleConfigYml: BattleYaml) {
 
     @Bean
     fun createBattleProperties() : BattleProperties{

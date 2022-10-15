@@ -8,7 +8,7 @@ function ItemsView({updateFunction}){
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         }
-        fetch('/getItems', {
+        fetch('/getAllItems', {
                                method: 'POST',
                                headers: { 'Content-Type': 'application/json' }
                            })

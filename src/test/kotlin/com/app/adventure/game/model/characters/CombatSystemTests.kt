@@ -136,7 +136,7 @@ class CombatSystemTests {
         )
         //when
         player.getFightStats().takeDamage(10)
-        player.getFightStats().addStatsFromDisposableItem(item)
+        player.getFightStats().addStatsFromItem(item)
         //then
         Assertions.assertEquals(20,player.getFightStats().getHp().getValue())
     }
@@ -163,7 +163,7 @@ class CombatSystemTests {
         )
         //when
         player.getFightStats().takeDamage(10)
-        player.getFightStats().addStatsFromDisposableItem(item)
+        player.getFightStats().addStatsFromItem(item)
         //then
         Assertions.assertEquals(15,player.getFightStats().getHp().getValue())
     }

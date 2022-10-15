@@ -11,100 +11,51 @@ import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.ItemAttribute
 import com.app.adventure.game.model.resources.Resources
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import java.util.*
 
 class ItemsTests {
+    private val player = Player(
+        Resources(30.0,0.0,0.0),
+        FightStats(
+            Strength(1),
+            Hp(20),
+            Armor(1)
+        ),
+        Experience(LevelProperties(TreeSet(listOf(0)),0)))
 
-    @Test
-    fun itemPurchased() {
+    @ParameterizedTest
+    @CsvSource(
+        "5,5.0,potion,15,25",
+        "5,50.0,potion,10,30",
+        "5,5.0,not potion,10,30",
+        "50,5.0,potion,20,25"
+    )
+    fun potionsTests(hpRecovery: Int,
+                   bayCost:Double,
+                   itemName: String,
+                   expectedHp: Int,
+                   expectedGold: Double) {
         //given
         val potion = DisposableItem(
             true,
             0,
             mapOf(
-                ItemAttribute.HP_RECOVERY to 5
+                ItemAttribute.HP_RECOVERY to hpRecovery
             ),
             "potion",
-            5.0,
+            bayCost,
             4.0
         )
-        val player = Player(
-            Resources(30.0,0.0,0.0),
-            FightStats(
-                Strength(1),
-                Hp(20),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
-        val itemController = ItemsController(player, mapOf("potion" to potion))
+        val itemController = ItemsController(player, mapOf(itemName to potion), emptyMap())
         //when
         player.getFightStats().takeDamage(10)
         itemController.buyItems("potion")
         //then
-        Assertions.assertEquals(15,player.getFightStats().getHp().getValue())
-        Assertions.assertEquals(25.0,player.getResources().getGold())
-    }
-
-    @Test
-    fun notEnoughGold() {
-        //given
-        val potion = DisposableItem(
-            true,
-            0,
-            mapOf(
-                ItemAttribute.HP_RECOVERY to 5
-            ),
-            "potion",
-            50.0,
-            4.0
-        )
-        val player = Player(
-            Resources(30.0,0.0,0.0),
-            FightStats(
-                Strength(1),
-                Hp(20),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
-        val itemController = ItemsController(player, mapOf("potion" to potion))
-        //when
-        player.getFightStats().takeDamage(10)
-        itemController.buyItems("potion")
-        //then
-        Assertions.assertEquals(10,player.getFightStats().getHp().getValue())
-        Assertions.assertEquals(30.0,player.getResources().getGold())
-    }
-    @Test
-    fun itemNotFound() {
-        //given
-        val potion = DisposableItem(
-            true,
-            0,
-            mapOf(
-                ItemAttribute.HP_RECOVERY to 5
-            ),
-            "potion",
-            50.0,
-            4.0
-        )
-        val player = Player(
-            Resources(30.0,0.0,0.0),
-            FightStats(
-                Strength(1),
-                Hp(20),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
-        val itemController = ItemsController(player, mapOf("potion" to potion))
-        //when
-        player.getFightStats().takeDamage(10)
-        itemController.buyItems("another item")
-        //then
-        Assertions.assertEquals(10,player.getFightStats().getHp().getValue())
-        Assertions.assertEquals(30.0,player.getResources().getGold())
+        Assertions.assertEquals(expectedHp,player.getFightStats().getHp().getValue())
+        Assertions.assertEquals(expectedGold,player.getResources().getGold())
     }
 }
