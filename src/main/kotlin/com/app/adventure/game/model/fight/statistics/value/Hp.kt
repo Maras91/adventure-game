@@ -1,18 +1,23 @@
 package com.app.adventure.game.model.fight.statistics.value
 
-class Hp (startValue : Int) : Statistics(startValue){
-    private var damage : Int = 0
+import com.app.adventure.game.model.fight.statistics.StatisticsName
 
-    fun getMaxHp() : Int {
-        return notDisposableItems.values.sum() + startValue + levelPoints + disposableItemsBuff
-    }
+class Hp (startValue: Int) : Statistics(startValue, StatisticsName.HP){
+
+    //TODO add this to yaml properties
+    private val HP_PER_LEVEL : Int = 10
+    private var damage: Int = 0
 
     override fun getValue () : Int {
-        return notDisposableItems.values.sum() + startValue + levelPoints + disposableItemsBuff - damage
+        return notDisposableItems.values.sum() + startValue + levelPoints*HP_PER_LEVEL + disposableItemsBuff
     }
 
-    fun takeDamage(damageTaken : Int) {
-        damage += damageTaken
+    fun getCurrentHp() : Int {
+        return notDisposableItems.values.sum() + startValue + levelPoints*HP_PER_LEVEL + disposableItemsBuff - damage
+    }
+
+    override fun addValueWhenLevelUp (points: Int){
+        levelPoints += points
     }
 
     fun hpRecovery(hpRecovery :Int) {
@@ -22,7 +27,7 @@ class Hp (startValue : Int) : Statistics(startValue){
         }
     }
 
-    override fun getPointsFromLevelUp () : Int {
-        return levelPoints/10
+    fun takeDamage(damageTaken : Int) {
+        damage += damageTaken
     }
 }

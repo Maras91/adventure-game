@@ -3,7 +3,7 @@ function PlayerStatsView ({playerStats}) {
     return (
        <div>
             <p>Strength: {playerStats.strength}</p>
-            <p>      HP: {playerStats.hp}/{playerStats.hpMax}</p>
+            <p>      HP: {playerStats.currentHp}/{playerStats.hp}</p>
             <p>   Armor: {playerStats.armor}</p>
        </div>
     );

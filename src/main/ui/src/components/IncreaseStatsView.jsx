@@ -49,7 +49,7 @@ function IncreaseStats ({updateFunction, levelUpPoints}) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({"strength" : stats.strength,
-                                        "hp" : stats.hp,
+                                        "hp" : stats.hp/HP_PER_POINT,
                                      "armor" : stats.armor})
         };
         fetch('/levelUp', requestOptions)

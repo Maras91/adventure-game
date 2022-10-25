@@ -1,19 +1,16 @@
 package com.app.adventure.game.model.characters
 
-import com.app.adventure.game.view.FightStatsView
+import com.app.adventure.game.model.fight.statistics.StatisticsName
 import com.app.adventure.game.view.ResourcesView
 
-class Monster(fightStats : FightStatsView, resources : ResourcesView, experience : Int) {
-    private val fightStats : FightStatsView = fightStats
-    private val resources : ResourcesView = resources
-    private val experience : Int = experience
+class Monster(private val statsView : Map<StatisticsName,Int>, private val resources : ResourcesView, private val experience : Int) {
 
     fun getResources() : ResourcesView {
         return resources
     }
 
-    fun getFightStats() : FightStatsView {
-        return fightStats
+    fun getStatsView() : Map<StatisticsName,Int> {
+        return statsView
     }
 
     fun getExperience(): Int {

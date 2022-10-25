@@ -13,8 +13,8 @@ function AdventureView(){
        fightStatsView: {
            strength: null,
            armor: null,
-           hpMax: null,
-           hp: null
+           hp: null,
+           currentHp: null
        },
        resourcesView: {
            gold: null,

@@ -15,7 +15,7 @@ data class DisposableItemsYaml (var disposable: List<ConsumableItemsYaml?>?) {
         var sellCost: Double?,
         var hasPermanentEffect : Boolean?,
         var timeInTurns: Int?,
-        var attributes: Map<String,Int>?) {
+        var effects: Map<String,Int>?) {
         constructor() : this("",0.0,0.0,false,0, emptyMap())
     }
 }

@@ -18,7 +18,7 @@ battle:
       statistics:
         strength: 5
         armor: 3
-        maxHP: 25
+        hp: 25
       experience: 200
     -
       name: orc
@@ -29,7 +29,7 @@ battle:
       statistics:
         strength: 10
         armor: 5
-        maxHP: 75
+        hp: 75
       experience: 750
     -
       name: worlock
@@ -40,7 +40,7 @@ battle:
       statistics:
         strength: 20
         armor: 10
-        maxHP: 200
+        hp: 200
       experience: 2500
 level:
   points-per-level: 4
@@ -62,14 +62,14 @@ items:
       bay-cost: 3.0
       sell-cost: 2.0
       has-permanent-effect: true
-      attributes:
+      effects:
         hp-recovery: 15
     -
       name: "large potion"
       bay-cost: 10.0
       sell-cost: 4.0
       has-permanent-effect: true
-      attributes:
+      effects:
         hp-recovery: 20
   not-disposable:
     -

@@ -1,21 +1,27 @@
 package com.app.adventure.game.model.fight
 
 import com.app.adventure.game.model.characters.Player
-import com.app.adventure.game.view.FightStatsView
+import com.app.adventure.game.model.fight.statistics.StatisticsName
 import org.springframework.stereotype.Service
 
 @Service
 class CombatSimulator {
 
-    public fun fight(player : Player, opponentFightStats: FightStatsView) :Int {
-        var yourDamage :Int = 0
-        var opponentDamage :Int = 0
-        while (opponentFightStats.getHp()-opponentDamage>=0 && player.getFightStats().getHpNumber()-yourDamage>=0) {
-            yourDamage += attack(opponentFightStats.getStrength(), player.getFightStats().getArmorNumber())
-            opponentDamage += attack(player.getFightStats().getStrengthNumber(), opponentFightStats.getArmor())
+    public fun fight(player : Player, monsterFightStats: Map<StatisticsName,Int>) :Int {
+        var yourDamage  = 0
+        var monsterDamage = 0
+        val monsterHP :Int = monsterFightStats[StatisticsName.HP] ?: 0
+        val monsterStrength :Int = monsterFightStats[StatisticsName.STRENGTH] ?: 0
+        val monsterArmor :Int = monsterFightStats[StatisticsName.ARMOR] ?: 0
+        val playerHP :Int = player.getStats()[StatisticsName.HP]?.getValue() ?: 0
+        val playerStrength :Int = player.getStats()[StatisticsName.STRENGTH]?.getValue() ?: 0
+        val playerArmor :Int = player.getStats()[StatisticsName.ARMOR]?.getValue() ?: 0
+        while (monsterHP-monsterDamage>=0 && playerHP-yourDamage>=0) {
+            yourDamage += attack(monsterStrength, playerArmor)
+            monsterDamage += attack(playerStrength, monsterArmor)
         }
-        player.getFightStats().takeDamage(yourDamage)
-        return player.getFightStats().getHpNumber()
+        player.getHp().takeDamage(yourDamage)
+        return player.getStats()[StatisticsName.HP]?.getValue() ?: -1
 
     }
     private fun attack( strength :Int, armor :Int) :Int {

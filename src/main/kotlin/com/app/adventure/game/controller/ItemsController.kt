@@ -35,7 +35,7 @@ class ItemsController @Autowired constructor(
         val item : Item? = notDisposableItems.plus(disposableItems)[name];
         if (item != null && item.bayCost <= player.getResources().getGold()) {
             player.getResources().payGold(item.bayCost)
-            player.getFightStats().addStatsFromItem(item)
+            player.addStatsFromItem(item)
         }
     }
 }

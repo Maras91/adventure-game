@@ -3,7 +3,6 @@ package com.app.adventure.game.model.beans
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
-import com.app.adventure.game.model.fight.statistics.FightStats
 import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
@@ -27,7 +26,7 @@ class PlayerConfig @Autowired constructor (
             Resources((startResourcesValues.gold ?: 0.0),
                 startResourcesValues.iron ?: 0.0,
                 startResourcesValues.meat ?: 0.0),
-            FightStats(
+            listOf(
                 Strength(startStatsValues.strength ?:0),
                 Hp(startStatsValues.maxHP ?: 0),
                 Armor(startStatsValues.armor ?: 0)

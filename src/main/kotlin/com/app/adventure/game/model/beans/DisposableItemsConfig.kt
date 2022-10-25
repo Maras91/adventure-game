@@ -2,7 +2,7 @@ package com.app.adventure.game.model.beans
 
 import com.app.adventure.game.model.exceptions.IncorrectYamlPropertiesException
 import com.app.adventure.game.model.item.DisposableItem
-import com.app.adventure.game.model.item.ItemAttribute
+import com.app.adventure.game.model.item.ItemEffects
 import com.app.adventure.game.model.yaml.properties.DisposableItemsYaml
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -19,11 +19,11 @@ class DisposableItemsConfig @Autowired constructor(val disposableItemsYaml : Dis
             ?.associate { itemYml -> itemYml?.name!! to DisposableItem(
                 itemYml.hasPermanentEffect ?: false,
                 itemYml.timeInTurns ?: 0,
-                itemYml.attributes?.mapKeys {
-                    ymlAt -> ItemAttribute.values().find {
-                        it.attributeName == ymlAt.key.toLowerCase()
+                itemYml.effects?.mapKeys {
+                    ymlAt -> ItemEffects.values().find {
+                        it.effectName == ymlAt.key.toLowerCase()
                     }?: throw IncorrectYamlPropertiesException(
-                            ymlAt.key,ItemAttribute.values().map { it.attributeName }.toString()
+                            ymlAt.key, ItemEffects.values().map { it.effectName }.toString()
                         )
                 } ?: emptyMap(),
                 itemYml.name ?: "",

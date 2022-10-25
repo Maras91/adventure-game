@@ -1,7 +1,7 @@
 package com.app.adventure.game.model.beans
 
 import com.app.adventure.game.model.exceptions.IncorrectYamlPropertiesException
-import com.app.adventure.game.model.item.ItemAttribute
+import com.app.adventure.game.model.fight.statistics.StatisticsName
 import com.app.adventure.game.model.item.ItemType
 import com.app.adventure.game.model.item.NotDisposableItem
 import com.app.adventure.game.model.yaml.properties.NotDisposableItemsYaml
@@ -20,10 +20,10 @@ class NotDisposableItemsConfig @Autowired constructor(val notDisposableItemsYaml
                 ItemType.values().find { it.name == itemYml.itemType?.toUpperCase() }
                     ?: throw IncorrectYamlPropertiesException(itemYml.itemType ?:"",ItemType.values().map { it.name }.toString()),
                 itemYml.attributes?.mapKeys {
-                        ymlAt -> ItemAttribute.values().find {
+                        ymlAt -> StatisticsName.values().find {
                     it.attributeName == ymlAt.key.toLowerCase()
                 }?:  throw IncorrectYamlPropertiesException(
-                    ymlAt.key,ItemAttribute.values().map { it.attributeName }.toString()
+                    ymlAt.key, StatisticsName.values().map { it.attributeName }.toString()
                     )
                 } ?: emptyMap(),
                 itemYml.name ?: "",
