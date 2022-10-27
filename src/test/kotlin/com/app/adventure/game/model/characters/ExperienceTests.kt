@@ -16,10 +16,10 @@ class ExperienceTests {
 
     private val player : Player = Player(
             Resources(0.0,0.0,0.0),
-            listOf(
-                    Strength(5),
-                    Hp(50),
-                    Armor(3)
+            mapOf(
+                StatisticsName.STRENGTH to Strength(5),
+                StatisticsName.HP to Hp(50),
+                StatisticsName.ARMOR to Armor(3)
             ),
             Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
 

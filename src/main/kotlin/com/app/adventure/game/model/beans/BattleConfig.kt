@@ -1,6 +1,7 @@
 package com.app.adventure.game.model.beans
 
 import com.app.adventure.game.model.characters.Monster
+import com.app.adventure.game.model.exceptions.IncorrectYamlPropertiesException
 import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.model.fight.statistics.StatisticsName
 import com.app.adventure.game.model.yaml.properties.BattleYaml
@@ -15,13 +16,13 @@ class BattleConfig @Autowired constructor( val battleConfigYml: BattleYaml) {
 
     @Bean
     fun createBattleProperties() : BattleProperties{
-        //TODO catch IllegalArgumentException
-        //TODO valueOf(stat.key.toUpperCase()) needs corrections
         val monsters: Map<String,Monster> =
             battleConfigYml.monsters?.filter { monster -> monster.name != null }?.associate {
                 it.name!! to
                         Monster(
-                            it.statistics?.mapKeys {stat -> StatisticsName.valueOf(stat.key.toUpperCase()) } ?: emptyMap(),
+                            it.statistics?.mapKeys {
+                                    stat -> StatisticsName.createByAttributeName(stat.key.toLowerCase())
+                            } ?: emptyMap(),
                             ResourcesView(
                                 it.resources?.gold ?: 0.0,
                                 it.resources?.iron ?: 0.0,

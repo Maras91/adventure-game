@@ -12,26 +12,31 @@ import com.app.adventure.game.model.item.ItemEffects
 import com.app.adventure.game.model.resources.Resources
 import com.app.adventure.game.view.ResourcesView
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import java.util.*
 
 class CombatSystemTests {
-    @Test
-    fun armorMaxDamageReduceTest() {
-        //given
-        val combatSimulator = CombatSimulator()
-        val player = Player(
-            Resources(0.0,0.0,0.0),
-            listOf(
-                Strength(24),
-                Hp(50),
-                Armor(5)
+    private lateinit var player : Player;
+    private val combatSimulator = CombatSimulator()
+    @BeforeEach
+    fun init(){
+        player = Player(
+            Resources(30.0,0.0,0.0),
+            mapOf(
+                StatisticsName.STRENGTH to Strength(10),
+                StatisticsName.HP to Hp(50),
+                StatisticsName.ARMOR to Armor(10)
             ),
-            Experience(LevelProperties(TreeSet(listOf(10)),1))
-        )
+            Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
+    }
+
+    @Test
+    fun armorMinDamageReduceTest() {
+        //given
         val monster = Monster(
-            mapOf(StatisticsName.STRENGTH to 4, StatisticsName.HP to 20, StatisticsName.ARMOR to 3),
+            mapOf(StatisticsName.STRENGTH to 5, StatisticsName.HP to 5, StatisticsName.ARMOR to 3),
             ResourcesView(1.0,2.0,3.0),
             50)
         //when
@@ -43,19 +48,8 @@ class CombatSystemTests {
 
     @Test
     fun armorDamageReducesTest() {
-        //given
-        val combatSimulator = CombatSimulator()
-        val player = Player(
-            Resources(0.0,0.0,0.0),
-            listOf(
-                Strength(10),
-                Hp(50),
-                Armor(5)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
         val monster = Monster(
-            mapOf(StatisticsName.STRENGTH to 10, StatisticsName.HP to 1, StatisticsName.ARMOR to 3),
+            mapOf(StatisticsName.STRENGTH to 15, StatisticsName.HP to 1, StatisticsName.ARMOR to 3),
             ResourcesView(0.0,0.0,0.0),
             0)
         //when
@@ -67,19 +61,8 @@ class CombatSystemTests {
 
     @Test
     fun fightTwoRandTest() {
-        //given
-        val combatSimulator = CombatSimulator()
-        val player = Player(
-            Resources(0.0,0.0,0.0),
-            listOf(
-                Strength(10),
-                Hp(50),
-                Armor(5)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
         val monster = Monster(
-            mapOf(StatisticsName.STRENGTH to 10, StatisticsName.HP to 10, StatisticsName.ARMOR to 3),
+            mapOf(StatisticsName.STRENGTH to 15, StatisticsName.HP to 10, StatisticsName.ARMOR to 3),
             ResourcesView(0.0,0.0,0.0),
             0)
         //when
@@ -90,80 +73,32 @@ class CombatSystemTests {
 
     @Test
     fun collectingResourcesTest(){
-        //given
-        val player = Player(
-            Resources(0.0,0.0,0.0),
-            listOf(
-                Strength(1),
-                Hp(1),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
         val monster = Monster(
-            mapOf(StatisticsName.STRENGTH to 1, StatisticsName.HP to 1, StatisticsName.ARMOR to 1),
-            ResourcesView(1.0,2.0,3.0),
+            mapOf(StatisticsName.STRENGTH to 60, StatisticsName.HP to 5, StatisticsName.ARMOR to 5),
+            ResourcesView(10.0,2.0,3.0),
             10)
         //when
         player.win(monster)
         //then
-        Assertions.assertEquals(1.0,player.getResources().getGold())
+        Assertions.assertEquals(40.0,player.getResources().getGold())
         Assertions.assertEquals(2.0,player.getResources().getIron())
         Assertions.assertEquals(3.0,player.getResources().getMeat())
         Assertions.assertEquals(10,player.getExperience().getValue())
     }
 
     @Test
-    fun healMaxHpTest() {
+    fun lostCombatTest(){
         //given
-        val item = DisposableItem(
-                true,
-                0,
-                mapOf(ItemEffects.HP_RECOVERY to 1000),
-                "potion",
-                2.0,
-                4.0
-            )
-        val player = Player(
-            Resources(30.0,0.0,0.0),
-            listOf(
-                Strength(1),
-                Hp(20),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
+        val monster = Monster(
+            mapOf(StatisticsName.STRENGTH to 60, StatisticsName.HP to 500, StatisticsName.ARMOR to 15),
+            ResourcesView(10.0,20.0,30.0),
+            10)
         //when
-        player.getHp().takeDamage(10)
-        player.addStatsFromItem(item)
+        combatSimulator.fight(player,monster.getStatsView())
         //then
-        Assertions.assertEquals(20,player.getHp().getCurrentHp())
-    }
-
-    @Test
-    fun healHpTest() {
-        //given
-        val item = DisposableItem(
-            true,
-            0,
-            mapOf(ItemEffects.HP_RECOVERY to 5),
-            "potion",
-            2.0,
-            4.0
-        )
-        val player = Player(
-            Resources(20.0,0.0,0.0),
-            listOf(
-                Strength(1),
-                Hp(20),
-                Armor(1)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(0)),0))
-        )
-        //when
-        player.getHp().takeDamage(10)
-        player.addStatsFromItem(item)
-        //then
-        Assertions.assertEquals(15,player.getHp().getCurrentHp())
+        Assertions.assertEquals(30.0,player.getResources().getGold())
+        Assertions.assertEquals(0.0,player.getResources().getIron())
+        Assertions.assertEquals(0.0,player.getResources().getMeat())
+        Assertions.assertEquals(0,player.getExperience().getValue())
     }
 }

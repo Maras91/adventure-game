@@ -6,6 +6,5 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "player.statistics")
-data class PlayerStatisticsValuesYaml (var strength: Int?, var armor: Int?, var maxHP: Int?)
-//TODO this should be a map
+@ConfigurationProperties(prefix = "player")
+data class PlayerStatisticsValuesYaml (var statistics: Map<String,Int>)

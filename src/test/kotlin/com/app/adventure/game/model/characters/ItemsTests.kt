@@ -3,6 +3,7 @@ package com.app.adventure.game.model.characters
 import com.app.adventure.game.controller.ItemsController
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
+import com.app.adventure.game.model.fight.statistics.StatisticsName
 import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
@@ -10,6 +11,7 @@ import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.ItemEffects
 import com.app.adventure.game.model.resources.Resources
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.util.*
@@ -17,10 +19,10 @@ import java.util.*
 class ItemsTests {
     private val player = Player(
         Resources(30.0,0.0,0.0),
-        listOf(
-            Strength(1),
-            Hp(20),
-            Armor(1)
+        mapOf(
+            StatisticsName.STRENGTH to Strength(1),
+            StatisticsName.HP to Hp(20),
+            StatisticsName.ARMOR to Armor(1)
         ),
         Experience(LevelProperties(TreeSet(listOf(0)),0))
     )

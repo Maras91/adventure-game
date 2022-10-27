@@ -11,9 +11,8 @@ import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.ItemEffects
 import com.app.adventure.game.model.resources.Resources
 
-class Player(private var resources: Resources, listOfStats: List<Statistics>, private var experience: Experience) {
-    private var stats :Map<StatisticsName,Statistics> = listOfStats.associateBy { it.name }
-
+class Player(private var resources: Resources, private var stats :Map<StatisticsName,Statistics>, private var experience: Experience) {
+    //TODO add test and init to maintain the consistency of the stats Map
     fun getResources() : Resources {
         return resources
     }
@@ -52,7 +51,7 @@ class Player(private var resources: Resources, listOfStats: List<Statistics>, pr
     fun allSpentLevelPoints(): Int {
         return stats.values.sumBy { it.getPointsFromLevelUp() }
     }
-    //TODO throw exception if it is not possible
+
     fun getHp(): Hp {
         return stats[StatisticsName.HP] as Hp
     }
@@ -61,8 +60,9 @@ class Player(private var resources: Resources, listOfStats: List<Statistics>, pr
         if (item is NotDisposableItem) {
             val itemAttributesMap = item.attributes
             stats.values.forEach { it.addValueFromItem(item.itemType,0) }
-            itemAttributesMap.forEach {(statName, statValue) ->  stats[statName]?.addValueFromItem(item.itemType,statValue) }
-
+            itemAttributesMap.forEach {
+                    (statName, statValue) ->  stats[statName]?.addValueFromItem(item.itemType,statValue)
+            }
         }
         if (item is DisposableItem) {
             if(item.itemEffects.containsKey(ItemEffects.HP_RECOVERY)) {

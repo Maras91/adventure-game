@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class CombatSimulator {
 
-    public fun fight(player : Player, monsterFightStats: Map<StatisticsName,Int>) :Int {
+    fun fight(player : Player, monsterFightStats: Map<StatisticsName,Int>){
         var yourDamage  = 0
         var monsterDamage = 0
         val monsterHP :Int = monsterFightStats[StatisticsName.HP] ?: 0
@@ -21,8 +21,6 @@ class CombatSimulator {
             monsterDamage += attack(playerStrength, monsterArmor)
         }
         player.getHp().takeDamage(yourDamage)
-        return player.getStats()[StatisticsName.HP]?.getValue() ?: -1
-
     }
     private fun attack( strength :Int, armor :Int) :Int {
         return if (armor >= strength) {

@@ -28,8 +28,8 @@ class AdventureController @Autowired constructor(
     fun fight(@RequestBody monsterName : String) {
         val monster = battleProperties.monsters[monsterName]
         if (monster != null) {
-            val hpLeft : Int = combatSimulator.fight(player,monster.getStatsView())
-            if (hpLeft >0) {
+            combatSimulator.fight(player,monster.getStatsView())
+            if (player.getHp().getCurrentHp() >0) {
                 player.win(monster)
             }
         }
@@ -38,11 +38,11 @@ class AdventureController @Autowired constructor(
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun levelUp(@RequestBody statsToUp : Map<String,Int>) : Map<String,Int> {
-        //TODO what is stats up refactor is needed there
+        //TODO is stats up refactor needed there
         //TODO how can I to prevent wrong statistic name?
         val allStatNames = statsToUp.keys.filter { StatisticsName.values().map { name -> name.attributeName }.contains(it)}
         val statsUp = StatsUp(
-        allStatNames.associate{ (StatisticsName.createByAttributeName(it) ?: throw IllegalArgumentException()) to (statsToUp[it] ?: 0) }
+        allStatNames.associate{ (StatisticsName.createByAttributeName(it)) to (statsToUp[it] ?: 0) }
         )
         player.addStatsUp(statsUp)
         return player.getStats().map { (k,v) -> k.attributeName to v.getValue() }.toMap()
