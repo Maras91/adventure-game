@@ -9,11 +9,14 @@ import com.app.adventure.game.model.item.NotDisposableItem
 import com.app.adventure.game.model.fight.statistics.StatisticsName
 import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.ItemEffects
-import com.app.adventure.game.model.resources.Resources
+import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceName
 
-class Player(private var resources: Resources, private var stats :Map<StatisticsName,Statistics>, private var experience: Experience) {
+class Player(private var resources: MutableMap<ResourceName, Resource>,
+             private var stats:Map<StatisticsName,Statistics>,
+             private var experience: Experience) {
     //TODO add test and init to maintain the consistency of the stats Map
-    fun getResources() : Resources {
+    fun getResources() : Map<ResourceName, Resource> {
         return resources
     }
 
@@ -26,9 +29,21 @@ class Player(private var resources: Resources, private var stats :Map<Statistics
     }
 
     fun win(monster : Monster) {
-        getResources().addResources(monster.getResources())
+        addResources(monster.getResources())
         getExperience().addExperience(monster.getExperience())
     }
+
+    fun addResources(rsc: Map<ResourceName, Resource>) {
+        rsc.forEach{ (name,rsc)->
+            if (resources.containsKey(name)){
+                resources[name]?.addValue(rsc.getValue())
+            } else {
+                resources[name] = Resource(name,rsc.getValue())
+            }
+        }
+
+    }
+
 
     fun addStatsUp(statsUp: StatsUp) {
         if (isStatsUpValid(statsUp)) {

@@ -7,6 +7,5 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "player.resources")
-data class PlayerResourcesValuesYaml (var gold : Double?, var iron: Double?, var meat: Double?){
-}
+@ConfigurationProperties(prefix = "player")
+data class PlayerResourcesValuesYaml (var resources :Map<String,Double>)

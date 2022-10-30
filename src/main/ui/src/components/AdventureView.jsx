@@ -19,7 +19,7 @@ function AdventureView(){
        resourcesView: {
            gold: null,
            iron: null,
-           meat: null
+           food: null
        },
        experienceView: {
            value: null,

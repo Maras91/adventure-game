@@ -7,7 +7,8 @@ import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.resources.Resources
+import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceName
 import org.junit.jupiter.api.Test
 import org.springframework.test.util.AssertionErrors.assertEquals
 import java.util.*
@@ -15,13 +16,16 @@ import java.util.*
 class ExperienceTests {
 
     private val player : Player = Player(
-            Resources(0.0,0.0,0.0),
-            mapOf(
-                StatisticsName.STRENGTH to Strength(5),
-                StatisticsName.HP to Hp(50),
-                StatisticsName.ARMOR to Armor(3)
-            ),
-            Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
+        mutableMapOf(
+            ResourceName.GOLD to Resource(ResourceName.GOLD,30.0),
+        ),
+        mapOf(
+            StatisticsName.STRENGTH to Strength(5),
+            StatisticsName.HP to Hp(50),
+            StatisticsName.ARMOR to Armor(3)
+        ),
+        Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4))
+    )
 
     @Test
     fun statsUpNotValidTest () {

@@ -8,7 +8,7 @@ enum class StatisticsName (val attributeName: String){
     HP("hp");
 
     companion object {
-        fun createByAttributeName(name: String): StatisticsName {
+        fun getAttributeByName(name: String): StatisticsName {
             return when (name) {
                 "strength" -> STRENGTH
                 "armor" -> ARMOR

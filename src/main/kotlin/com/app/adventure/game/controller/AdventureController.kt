@@ -4,10 +4,8 @@ import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
-import com.app.adventure.game.model.fight.experience.StatsUp
-import com.app.adventure.game.model.fight.statistics.StatisticsName
+import com.app.adventure.game.model.fight.experience.LevelService
 import com.app.adventure.game.view.ExperienceView
-import com.app.adventure.game.view.ResourcesView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
@@ -20,6 +18,7 @@ class AdventureController @Autowired constructor(
     val combatSimulator: CombatSimulator,
     val battleProperties: BattleProperties,
     var player : Player,
+    val levelService: LevelService
     )
 {
 
@@ -38,23 +37,19 @@ class AdventureController @Autowired constructor(
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun levelUp(@RequestBody statsToUp : Map<String,Int>) : Map<String,Int> {
-        //TODO is stats up refactor needed there
         //TODO how can I to prevent wrong statistic name?
-        val allStatNames = statsToUp.keys.filter { StatisticsName.values().map { name -> name.attributeName }.contains(it)}
-        val statsUp = StatsUp(
-        allStatNames.associate{ (StatisticsName.createByAttributeName(it)) to (statsToUp[it] ?: 0) }
-        )
-        player.addStatsUp(statsUp)
+        levelService.levelUp(statsToUp, player)
         return player.getStats().map { (k,v) -> k.attributeName to v.getValue() }.toMap()
     }
 
     @PostMapping("/adventureStats")
     @ResponseBody
     fun getPlayer() : PlayerView {
+        //TODO Do I need to add some mappers?
         return PlayerView(
             player.getStats().map { (k,v) -> k.attributeName to v.getValue() }
                 .toMap().plus("currentHp" to player.getHp().getCurrentHp()),
-            ResourcesView(player.getResources()),
+            player.getResources().map { (k,v) -> k.rscName to v.getValue() }.toMap(),
             ExperienceView(player.getExperience()),
             player.getExperience().allStatsPointsToSpend() -
                     player.allSpentLevelPoints())

@@ -4,6 +4,7 @@ import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.Item
 import com.app.adventure.game.model.item.NotDisposableItem
+import com.app.adventure.game.model.resources.ResourceName
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
@@ -33,8 +34,8 @@ class ItemsController @Autowired constructor(
     @ResponseBody
     fun buyItems(@RequestBody name :String) {
         val item : Item? = notDisposableItems.plus(disposableItems)[name];
-        if (item != null && item.bayCost <= player.getResources().getGold()) {
-            player.getResources().payGold(item.bayCost)
+        if (item != null && item.bayCost <= (player.getResources()[ResourceName.GOLD]?.getValue() ?: 0.0)) {
+            player.getResources()[ResourceName.GOLD]?.pay(item.bayCost)
             player.addStatsFromItem(item)
         }
     }

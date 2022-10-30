@@ -9,16 +9,18 @@ import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.ItemEffects
-import com.app.adventure.game.model.resources.Resources
+import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceName
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.util.*
 
 class ItemsTests {
     private val player = Player(
-        Resources(30.0,0.0,0.0),
+        mutableMapOf(
+            ResourceName.GOLD to Resource(ResourceName.GOLD,30.0),
+        ),
         mapOf(
             StatisticsName.STRENGTH to Strength(1),
             StatisticsName.HP to Hp(20),
@@ -56,6 +58,6 @@ class ItemsTests {
         itemController.buyItems("potion")
         //then
         Assertions.assertEquals(expectedHp,player.getHp().getCurrentHp())
-        Assertions.assertEquals(expectedGold,player.getResources().getGold())
+        Assertions.assertEquals(expectedGold,player.getResources()[ResourceName.GOLD]?.getValue())
     }
 }
