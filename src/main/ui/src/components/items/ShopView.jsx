@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import _ from 'lodash';
 
-function ItemsView({updateFunction}){
+function ShopView({updateFunction}){
     const [items, setItems] = useState(new Map())
     function getItems() {
         const requestOptions = {
@@ -39,4 +39,4 @@ function ItemsView({updateFunction}){
     )
 }
 
-export default ItemsView
+export default ShopView

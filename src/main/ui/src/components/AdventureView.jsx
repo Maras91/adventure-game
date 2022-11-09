@@ -1,26 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import PlayerStatsView from './PlayerStatsView';
-import ExperienceView from './ExperienceView';
-import ResourcesView from './ResourcesView';
-import IncreaseStats from './IncreaseStatsView';
-import ActionsView from './ActionsView';
-import ItemsView from './ItemsView'
+import PlayerStatsView from './fight/PlayerStatsView';
+import ExperienceView from './level/ExperienceView';
+import ResourcesView from './fight/ResourcesView';
+import IncreaseStats from './level/IncreaseStatsView';
+import MonstersView from './fight/MonstersView';
+import ItemsView from './items/ItemsView';
+import UsingItemsView from './items/UsingItemsView';
 import _ from 'lodash';
 
 function AdventureView(){
     const [stats,setStats] = useState(
     {
-       fightStatsView: {
-           strength: null,
-           armor: null,
-           hp: null,
-           currentHp: null
-       },
-       resourcesView: {
-           gold: null,
-           iron: null,
-           food: null
-       },
+       fightStatsView: new Map(),
+       resourcesView: new Map(),
+       inventoryView: new Map(),
        experienceView: {
            value: null,
            nextLevelExp: null,
@@ -48,22 +41,28 @@ function AdventureView(){
     useEffect(() => {
         getStatsData();
     }, []);
-    console.log("render", stats);
+    console.log("adventure view inventory: ", stats.inventoryView);
+    console.log("adventure view stats: ", stats.fightStatsView);
     return (
-        <div className="row">
-        	<ResourcesView className="col-md-3 border" resources={stats.resourcesView} />
-            <div className="col-md-3 border">
-                <ExperienceView experienceView={stats.experienceView} />
-                <PlayerStatsView playerStats={stats.fightStatsView}/>
+        <>
+            <ResourcesView className="col-md-3" resources={stats.resourcesView} />
+            <div className="row">
+                <div className="col-md-3 border">
+                    <PlayerStatsView playerStats={stats.fightStatsView}/>
+                </div>
+                <div className="col-md-2 border">
+                    <UsingItemsView />
+                </div>
+                <div className="col-md-3 border">
+                    <ExperienceView experienceView={stats.experienceView} />
+                    <IncreaseStats updateFunction={getStatsData} levelUpPoints={stats.levelUpPoints} />
+                </div>
             </div>
-            <div className="col-md-3 border">
-                <IncreaseStats updateFunction={getStatsData} levelUpPoints={stats.levelUpPoints} />
+            <div className="col-md-4">
+                <ItemsView updateFunction={getStatsData} inventory={stats.inventoryView} />
             </div>
-            <div className="col-md-3 border">
-                <ItemsView updateFunction={getStatsData} />
-            </div>
-            <ActionsView updateFunction={getStatsData} />
-        </div>
+            <MonstersView updateFunction={getStatsData} />
+        </>
     );
 
 }

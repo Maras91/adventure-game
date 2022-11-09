@@ -8,5 +8,13 @@ class NotDisposableItem (val itemType :ItemType,
                          override val bayCost: Double,
                          override val sellCost: Double
                         ) : Item {
+    override var amount = 1;
+    override fun increaseAmount() {
+        amount++
+    }
+
+    override fun decreaseAmount() {
+        amount--
+    }
 
 }

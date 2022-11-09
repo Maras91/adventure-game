@@ -5,6 +5,8 @@ import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
 import com.app.adventure.game.model.fight.statistics.StatisticsFactory
 import com.app.adventure.game.model.fight.statistics.StatisticsName
+import com.app.adventure.game.model.item.ItemType
+import com.app.adventure.game.model.item.NotDisposableItem
 import com.app.adventure.game.model.resources.Resource
 import com.app.adventure.game.model.resources.ResourceName
 import com.app.adventure.game.model.yaml.properties.PlayerResourcesValuesYaml
@@ -33,6 +35,7 @@ class PlayerConfig @Autowired constructor (
             }.mapValues {
                 statisticsFactory.createStatistics(it.key,it.value)
             },
+            mutableMapOf(), //TODO add the ability to add stat items
             Experience(levelProperties)
         )
     }

@@ -33,10 +33,25 @@ class ItemsController @Autowired constructor(
     @PostMapping("/buyItem")
     @ResponseBody
     fun buyItems(@RequestBody name :String) {
-        val item : Item? = notDisposableItems.plus(disposableItems)[name];
+        val item : Item? = notDisposableItems.plus(disposableItems)[name]
         if (item != null && item.bayCost <= (player.getResources()[ResourceName.GOLD]?.getValue() ?: 0.0)) {
             player.getResources()[ResourceName.GOLD]?.pay(item.bayCost)
-            player.addStatsFromItem(item)
+            player.inventory.addItem(item)
         }
+    }
+
+    @PostMapping("/putOnItem")
+    @ResponseBody
+    fun putOnItem(@RequestBody name :String) {
+        val item : NotDisposableItem? = notDisposableItems[name];
+        if (item != null) {
+            player.putOnItem(item)
+        }
+    }
+
+    @PostMapping("/getInventoryItems")
+    @ResponseBody
+    fun getInventoryItems(): Map<String,Item>  {
+        return player.inventory.getItems()
     }
 }

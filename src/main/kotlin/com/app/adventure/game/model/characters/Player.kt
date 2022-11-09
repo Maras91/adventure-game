@@ -4,17 +4,16 @@ import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.StatsUp
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Statistics
-import com.app.adventure.game.model.item.Item
-import com.app.adventure.game.model.item.NotDisposableItem
 import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.item.DisposableItem
-import com.app.adventure.game.model.item.ItemEffects
+import com.app.adventure.game.model.item.*
 import com.app.adventure.game.model.resources.Resource
 import com.app.adventure.game.model.resources.ResourceName
 
-class Player(private var resources: MutableMap<ResourceName, Resource>,
-             private var stats:Map<StatisticsName,Statistics>,
-             private var experience: Experience) {
+class Player(private val resources: MutableMap<ResourceName, Resource>,
+             private val stats:Map<StatisticsName,Statistics>,
+             private val wearingItems: MutableMap<ItemType,NotDisposableItem>,
+             private val experience: Experience) {
+    val inventory: Inventory = Inventory()
     //TODO add test and init to maintain the consistency of the stats Map
     fun getResources() : Map<ResourceName, Resource> {
         return resources
@@ -71,18 +70,25 @@ class Player(private var resources: MutableMap<ResourceName, Resource>,
         return stats[StatisticsName.HP] as Hp
     }
 
-    fun addStatsFromItem(item: Item){
-        if (item is NotDisposableItem) {
-            val itemAttributesMap = item.attributes
-            stats.values.forEach { it.addValueFromItem(item.itemType,0) }
-            itemAttributesMap.forEach {
-                    (statName, statValue) ->  stats[statName]?.addValueFromItem(item.itemType,statValue)
-            }
+    fun useItem(item: DisposableItem){
+        if(item.itemEffects.containsKey(ItemEffects.HP_RECOVERY)) {
+            getHp().hpRecovery(item.itemEffects[ItemEffects.HP_RECOVERY] ?:0)
         }
-        if (item is DisposableItem) {
-            if(item.itemEffects.containsKey(ItemEffects.HP_RECOVERY)) {
-                getHp().hpRecovery(item.itemEffects[ItemEffects.HP_RECOVERY] ?:0)
+    }
+    fun putOnItem(item: NotDisposableItem) {
+        if (inventory.removeItem(item.name) != null) {
+            if (wearingItems.containsKey(item.itemType)) {
+                inventory.addItem(wearingItems[item.itemType]!!)
             }
+            wearingItems[item.itemType] = item
+            addStatsFromItem(item)
+        }
+    }
+    private fun addStatsFromItem(item: NotDisposableItem){
+        val itemAttributesMap = item.attributes
+        stats.values.forEach { it.addValueFromItem(item.itemType,0) }
+        itemAttributesMap.forEach {
+                (statName, statValue) ->  stats[statName]?.addValueFromItem(item.itemType,statValue)
         }
     }
 }
