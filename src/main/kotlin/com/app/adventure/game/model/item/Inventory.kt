@@ -27,4 +27,11 @@ class Inventory {
     fun getItems(): Map<String,Item> {
         return inventory.toMap()
     }
+    fun getAllNotDisposableItem(): Map<String,NotDisposableItem> {
+        return inventory.filter { (_,vale) -> vale is NotDisposableItem }.toMap() as Map<String, NotDisposableItem>
+    }
+
+    fun getAllDisposableItem(): Map<String,DisposableItem> {
+        return inventory.filter { (_,vale) -> vale is DisposableItem }.toMap() as Map<String, DisposableItem>
+    }
 }

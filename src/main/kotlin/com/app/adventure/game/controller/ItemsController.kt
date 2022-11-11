@@ -18,12 +18,6 @@ class ItemsController @Autowired constructor(
     val notDisposableItems : Map<String, NotDisposableItem>
 )
 {
-    @PostMapping("/getDisposableItems")
-    @ResponseBody
-    fun getAllDisposableItems(): Map<String,DisposableItem> {
-        return disposableItems
-    }
-
     @PostMapping("/getAllItems")
     @ResponseBody
     fun getAllItems(): Map<String, Item> {
@@ -40,12 +34,17 @@ class ItemsController @Autowired constructor(
         }
     }
 
-    @PostMapping("/putOnItem")
+    @PostMapping("/useItem")
     @ResponseBody
     fun putOnItem(@RequestBody name :String) {
-        val item : NotDisposableItem? = notDisposableItems[name];
+        val item : Item? = notDisposableItems.plus(disposableItems)[name];
         if (item != null) {
-            player.putOnItem(item)
+            if (item is NotDisposableItem) {
+                player.useItem(item)
+            }
+            if (item is DisposableItem) {
+                player.useItem(item)
+            }
         }
     }
 

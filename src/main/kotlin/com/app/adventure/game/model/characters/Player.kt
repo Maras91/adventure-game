@@ -71,11 +71,13 @@ class Player(private val resources: MutableMap<ResourceName, Resource>,
     }
 
     fun useItem(item: DisposableItem){
-        if(item.itemEffects.containsKey(ItemEffects.HP_RECOVERY)) {
-            getHp().hpRecovery(item.itemEffects[ItemEffects.HP_RECOVERY] ?:0)
+        if (inventory.removeItem(item.name) != null) {
+            if (item.itemEffects.containsKey(ItemEffects.HP_RECOVERY)) {
+                getHp().hpRecovery(item.itemEffects[ItemEffects.HP_RECOVERY] ?: 0)
+            }
         }
     }
-    fun putOnItem(item: NotDisposableItem) {
+    fun useItem(item: NotDisposableItem) {
         if (inventory.removeItem(item.name) != null) {
             if (wearingItems.containsKey(item.itemType)) {
                 inventory.addItem(wearingItems[item.itemType]!!)

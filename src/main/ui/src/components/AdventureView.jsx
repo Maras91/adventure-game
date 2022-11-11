@@ -13,7 +13,8 @@ function AdventureView(){
     {
        fightStatsView: new Map(),
        resourcesView: new Map(),
-       inventoryView: new Map(),
+       disposableItemsView: new Map(),
+       notDisposableItemsView: new Map(),
        experienceView: {
            value: null,
            nextLevelExp: null,
@@ -41,7 +42,6 @@ function AdventureView(){
     useEffect(() => {
         getStatsData();
     }, []);
-    console.log("adventure view inventory: ", stats.inventoryView);
     console.log("adventure view stats: ", stats.fightStatsView);
     return (
         <>
@@ -59,7 +59,7 @@ function AdventureView(){
                 </div>
             </div>
             <div className="col-md-4">
-                <ItemsView updateFunction={getStatsData} inventory={stats.inventoryView} />
+                <ItemsView updateFunction={getStatsData} notDisposableItemsView={stats.notDisposableItemsView} disposableItemsView={stats.disposableItemsView} />
             </div>
             <MonstersView updateFunction={getStatsData} />
         </>

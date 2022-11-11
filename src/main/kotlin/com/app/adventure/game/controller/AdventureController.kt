@@ -50,7 +50,8 @@ class AdventureController @Autowired constructor(
             player.getStats().map { (k,v) -> k.attributeName to v.getValue() }
                 .toMap().plus("currentHp" to player.getHp().getCurrentHp()),
             player.getResources().map { (k,v) -> k.rscName to v.getValue() }.toMap(),
-            player.inventory.getItems(),
+            player.inventory.getAllDisposableItem(),
+            player.inventory.getAllNotDisposableItem(),
             ExperienceView(player.getExperience()),
             player.getExperience().allStatsPointsToSpend() -
                     player.allSpentLevelPoints())
