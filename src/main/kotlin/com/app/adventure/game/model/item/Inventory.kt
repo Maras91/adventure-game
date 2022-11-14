@@ -1,7 +1,14 @@
 package com.app.adventure.game.model.item
 
 class Inventory {
-    private val inventory: MutableMap<String,Item> = mutableMapOf()
+    private val inventory: MutableMap<String,Item>
+
+    constructor() {
+        inventory = mutableMapOf()
+    }
+    constructor(statingItems :MutableMap<String,Item>) {
+        inventory = statingItems;
+    }
 
     fun addItem(item: Item) {
         if (inventory.containsKey(item.name)) {
@@ -10,6 +17,7 @@ class Inventory {
             inventory[item.name] = item
         }
     }
+
 
     fun getItem(name: String): Item? {
         return inventory[name]

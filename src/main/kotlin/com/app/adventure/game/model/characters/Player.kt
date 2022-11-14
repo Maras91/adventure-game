@@ -14,7 +14,8 @@ class Player(private val resources: MutableMap<ResourceName, Resource>,
              private val wearingItems: MutableMap<ItemType,NotDisposableItem>,
              private val experience: Experience) {
     val inventory: Inventory = Inventory()
-    //TODO add test and init to maintain the consistency of the stats Map
+    //TODO  1 add test and init to maintain the consistency of the stats Map
+    // change map stats, resources, wearingItems like inventory
     fun getResources() : Map<ResourceName, Resource> {
         return resources
     }
@@ -77,7 +78,7 @@ class Player(private val resources: MutableMap<ResourceName, Resource>,
             }
         }
     }
-    fun useItem(item: NotDisposableItem) {
+    fun putOn(item: NotDisposableItem) {
         if (inventory.removeItem(item.name) != null) {
             if (wearingItems.containsKey(item.itemType)) {
                 inventory.addItem(wearingItems[item.itemType]!!)

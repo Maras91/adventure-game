@@ -15,7 +15,7 @@ class DisposableItemsConfig @Autowired constructor(val disposableItemsYaml : Dis
     @Bean
     fun createDisposableItemsItems(): Map<String,DisposableItem>{
         return disposableItemsYaml.disposable
-            ?.filter { monster -> monster?.name != null }
+            ?.filter { item -> item?.name != null }
             ?.associate { itemYml -> itemYml?.name!! to DisposableItem(
                 itemYml.hasPermanentEffect ?: false,
                 itemYml.timeInTurns ?: 0,

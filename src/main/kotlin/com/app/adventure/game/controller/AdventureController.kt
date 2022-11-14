@@ -37,7 +37,6 @@ class AdventureController @Autowired constructor(
     @PostMapping("/levelUp",produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun levelUp(@RequestBody statsToUp : Map<String,Int>) : Map<String,Int> {
-        //TODO how can I to prevent wrong statistic name?
         levelService.levelUp(statsToUp, player)
         return player.getStats().map { (k,v) -> k.attributeName to v.getValue() }.toMap()
     }

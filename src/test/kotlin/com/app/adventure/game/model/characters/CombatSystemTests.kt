@@ -31,6 +31,7 @@ class CombatSystemTests {
                 StatisticsName.HP to Hp(50),
                 StatisticsName.ARMOR to Armor(10)
             ),
+            mutableMapOf(),
             Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
     }
 

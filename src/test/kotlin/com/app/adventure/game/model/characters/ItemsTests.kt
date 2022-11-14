@@ -8,6 +8,7 @@ import com.app.adventure.game.model.fight.statistics.value.Armor
 import com.app.adventure.game.model.fight.statistics.value.Hp
 import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.item.DisposableItem
+import com.app.adventure.game.model.item.Inventory
 import com.app.adventure.game.model.item.ItemEffects
 import com.app.adventure.game.model.resources.Resource
 import com.app.adventure.game.model.resources.ResourceName
@@ -26,36 +27,70 @@ class ItemsTests {
             StatisticsName.HP to Hp(20),
             StatisticsName.ARMOR to Armor(1)
         ),
+        mutableMapOf(),
         Experience(LevelProperties(TreeSet(listOf(0)),0))
     )
 
     @ParameterizedTest
     @CsvSource(
-        "5,5.0,potion,15,25",
-        "5,50.0,potion,10,30",
-        "5,5.0,not potion,10,30",
-        "50,5.0,potion,20,25"
+        "5,5.0,15,25",
+        "5,50.0,10,30",
+        "50,5.0,20,25"
     )
-    fun potionsTests(hpRecovery: Int,
+    fun singleUseItemTests(hpRecovery: Int,
                    bayCost:Double,
-                   itemName: String,
                    expectedHp: Int,
                    expectedGold: Double) {
         //given
+        val itemName = "potion"
         val potion = DisposableItem(
             true,
             0,
             mapOf(
                 ItemEffects.HP_RECOVERY to hpRecovery
             ),
-            "potion",
+            itemName,
             bayCost,
             4.0
         )
-        val itemController = ItemsController(player, mapOf(itemName to potion), emptyMap())
+        val itemController = ItemsController(player, Inventory(mutableMapOf( itemName to potion)))
         //when
         player.getHp().takeDamage(10)
-        itemController.buyItems("potion")
+        itemController.buyItems(itemName)
+        itemController.useItem(itemName)
+        //then
+        Assertions.assertEquals(expectedHp,player.getHp().getCurrentHp())
+        Assertions.assertEquals(expectedGold,player.getResources()[ResourceName.GOLD]?.getValue())
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "potion,potion,potion,15,15",
+        "sword,potion,potion,10,30",
+        "potion,sword,potion,10,30",
+        "potion,potion,sword,10,15"
+    )
+    fun wrongItemNameTests(itemCreateName: String,
+                           itemBuyName: String,
+                           itemBuyUse: String,
+                           expectedHp: Int,
+                           expectedGold: Double) {
+        //given
+        val potion = DisposableItem(
+            true,
+            0,
+            mapOf(
+                ItemEffects.HP_RECOVERY to 5
+            ),
+            itemCreateName,
+            15.0,
+            4.0
+        )
+        val itemController = ItemsController(player, Inventory(mutableMapOf(itemCreateName to potion)))
+        //when
+        player.getHp().takeDamage(10)
+        itemController.buyItems(itemBuyName)
+        itemController.useItem(itemBuyUse)
         //then
         Assertions.assertEquals(expectedHp,player.getHp().getCurrentHp())
         Assertions.assertEquals(expectedGold,player.getResources()[ResourceName.GOLD]?.getValue())
