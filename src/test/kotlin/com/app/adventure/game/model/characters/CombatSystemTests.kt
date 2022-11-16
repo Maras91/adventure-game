@@ -3,11 +3,10 @@ package com.app.adventure.game.model.characters
 import com.app.adventure.game.model.fight.CombatSimulator
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
-import com.app.adventure.game.model.fight.statistics.value.Armor
-import com.app.adventure.game.model.fight.statistics.value.Hp
-import com.app.adventure.game.model.fight.statistics.value.Strength
+import com.app.adventure.game.model.fight.statistics.CharacterStats
+import com.app.adventure.game.model.fight.statistics.StatisticsFactory
 import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceValue
 import com.app.adventure.game.model.resources.ResourceName
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -20,16 +19,15 @@ class CombatSystemTests {
     private val combatSimulator = CombatSimulator()
     @BeforeEach
     fun init(){
-        //TODO in ResourceName.GOLD to Resource(ResourceName.GOLD,30.0)
-        // I have to add ResourceName.GOLD two times. I should fix it
         player = Player(
             mutableMapOf(
-                ResourceName.GOLD to Resource(ResourceName.GOLD,30.0),
-            ),
+                ResourceName.GOLD to ResourceValue(30.0),
+            ), CharacterStats(
             mapOf(
-                StatisticsName.STRENGTH to Strength(10),
-                StatisticsName.HP to Hp(50),
-                StatisticsName.ARMOR to Armor(10)
+                StatisticsName.STRENGTH.attributeName to 10,
+                StatisticsName.HP.attributeName to 50,
+                StatisticsName.ARMOR.attributeName to 10
+            ), StatisticsFactory()
             ),
             mutableMapOf(),
             Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4)))
@@ -45,7 +43,7 @@ class CombatSystemTests {
         //when
         combatSimulator.fight(player,monster.getStatsView());
         //then
-        Assertions.assertEquals(49,player.getHp().getCurrentHp())
+        Assertions.assertEquals(49,player.getCharacterStats().getHp().getCurrentHp())
 
     }
 
@@ -58,7 +56,7 @@ class CombatSystemTests {
         //when
         combatSimulator.fight(player,monster.getStatsView());
         //then
-        Assertions.assertEquals(45,player.getHp().getCurrentHp())
+        Assertions.assertEquals(45,player.getCharacterStats().getHp().getCurrentHp())
 
     }
 
@@ -71,7 +69,7 @@ class CombatSystemTests {
         //when
         combatSimulator.fight(player,monster.getStatsView());
         //then
-        Assertions.assertEquals(40,player.getHp().getCurrentHp())
+        Assertions.assertEquals(40,player.getCharacterStats().getHp().getCurrentHp())
     }
 
     @Test
@@ -79,8 +77,8 @@ class CombatSystemTests {
         val monster = Monster(
             mapOf(StatisticsName.STRENGTH to 60, StatisticsName.HP to 5, StatisticsName.ARMOR to 5),
             mutableMapOf(
-                ResourceName.GOLD to Resource(ResourceName.GOLD,10.0),
-                ResourceName.IRON to Resource(ResourceName.IRON,2.0),
+                ResourceName.GOLD to ResourceValue(10.0),
+                ResourceName.IRON to ResourceValue(2.0),
             ),
             10)
         //when
@@ -97,8 +95,8 @@ class CombatSystemTests {
         val monster = Monster(
             mapOf(StatisticsName.STRENGTH to 60, StatisticsName.HP to 500, StatisticsName.ARMOR to 15),
             mutableMapOf(
-                ResourceName.GOLD to Resource(ResourceName.GOLD,20.0),
-                ResourceName.IRON to Resource(ResourceName.IRON,50.0),
+                ResourceName.GOLD to ResourceValue(20.0),
+                ResourceName.IRON to ResourceValue(50.0),
             ),
             10)
         //when

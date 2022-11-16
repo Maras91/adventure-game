@@ -3,11 +3,9 @@ package com.app.adventure.game.model.beans
 import com.app.adventure.game.model.characters.Player
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
+import com.app.adventure.game.model.fight.statistics.CharacterStats
 import com.app.adventure.game.model.fight.statistics.StatisticsFactory
-import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.item.ItemType
-import com.app.adventure.game.model.item.NotDisposableItem
-import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceValue
 import com.app.adventure.game.model.resources.ResourceName
 import com.app.adventure.game.model.yaml.properties.PlayerResourcesValuesYaml
 import com.app.adventure.game.model.yaml.properties.PlayerStatisticsValuesYaml
@@ -27,14 +25,10 @@ class PlayerConfig @Autowired constructor (
     fun createPlayer() : Player {
         return Player(
             startResourcesValues.resources.mapKeys {
-                ResourceName.getResourceName(it.key)
+                ResourceName.getResourceByName(it.key)
             }.mapValues {
-                Resource(it.key, it.value) } as MutableMap<ResourceName, Resource>,
-            startStatsValues.statistics.mapKeys {
-                StatisticsName.getAttributeByName(it.key)
-            }.mapValues {
-                statisticsFactory.createStatistics(it.key,it.value)
-            },
+                ResourceValue(it.value) } as MutableMap<ResourceName, ResourceValue>,
+            CharacterStats(startStatsValues.statistics,statisticsFactory),
             mutableMapOf(), //TODO add the ability to add stat items
             Experience(levelProperties)
         )

@@ -28,7 +28,7 @@ class AdventureController @Autowired constructor(
         val monster = battleProperties.monsters[monsterName]
         if (monster != null) {
             combatSimulator.fight(player,monster.getStatsView())
-            if (player.getHp().getCurrentHp() >0) {
+            if (player.getCharacterStats().getHp().getCurrentHp() >0) {
                 player.win(monster)
             }
         }
@@ -38,7 +38,7 @@ class AdventureController @Autowired constructor(
     @ResponseBody
     fun levelUp(@RequestBody statsToUp : Map<String,Int>) : Map<String,Int> {
         levelService.levelUp(statsToUp, player)
-        return player.getStats().map { (k,v) -> k.attributeName to v.getValue() }.toMap()
+        return player.getCharacterStats().getStats().map { (k,v) -> k.attributeName to v.getValue() }.toMap()
     }
 
     @PostMapping("/adventureStats")
@@ -46,14 +46,14 @@ class AdventureController @Autowired constructor(
     fun getPlayer() : PlayerView {
         //TODO Do I need to add some mappers?
         return PlayerView(
-            player.getStats().map { (k,v) -> k.attributeName to v.getValue() }
-                .toMap().plus("currentHp" to player.getHp().getCurrentHp()),
+            player.getCharacterStats().getStats().map { (k,v) -> k.attributeName to v.getValue() }
+                .toMap().plus("currentHp" to player.getCharacterStats().getHp().getCurrentHp()),
             player.getResources().map { (k,v) -> k.rscName to v.getValue() }.toMap(),
             player.inventory.getAllDisposableItem(),
             player.inventory.getAllNotDisposableItem(),
             ExperienceView(player.getExperience()),
             player.getExperience().allStatsPointsToSpend() -
-                    player.allSpentLevelPoints())
+                    player.getCharacterStats().allSpentLevelPoints())
     }
 
     @PostMapping("/allMonsters")

@@ -2,9 +2,10 @@ package com.app.adventure.game.model.fight.statistics.value
 
 import com.app.adventure.game.model.fight.statistics.StatisticsName
 
+
 class Hp (startValue: Int) : Statistics(startValue, StatisticsName.HP){
 
-    //TODO add this to yaml properties
+    //TODO add this to yaml properties(required bean)
     private val HP_PER_LEVEL : Int = 10
     private var damage: Int = 0
 

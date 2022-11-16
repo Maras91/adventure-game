@@ -1,6 +1,6 @@
 package com.app.adventure.game.model.resources
 
-class  Resource (private val name: ResourceName, startValue: Double){
+class  ResourceValue (startValue: Double){
     private val value: MutableList<Double> = mutableListOf(startValue);
 
     fun getValue() :Double {
@@ -13,9 +13,5 @@ class  Resource (private val name: ResourceName, startValue: Double){
 
     fun addValue(amount :Double) {
         value.add(amount)
-    }
-
-    fun getName() : ResourceName {
-        return name
     }
 }

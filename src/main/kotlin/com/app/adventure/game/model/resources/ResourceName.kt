@@ -1,7 +1,6 @@
 package com.app.adventure.game.model.resources
 
 import com.app.adventure.game.model.exceptions.IncorrectYamlPropertiesException
-import com.app.adventure.game.model.fight.statistics.StatisticsName
 
 enum class ResourceName (val rscName: String)  {
     GOLD("gold"),
@@ -9,7 +8,7 @@ enum class ResourceName (val rscName: String)  {
     FOOD("food");
 
     companion object {
-        fun getResourceName(name: String): ResourceName {
+        fun getResourceByName(name: String): ResourceName {
             return when (name.toLowerCase()) {
                 "gold" -> GOLD
                 "iron" -> IRON

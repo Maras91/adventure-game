@@ -3,11 +3,10 @@ package com.app.adventure.game.model.characters
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
 import com.app.adventure.game.model.fight.experience.StatsUp
-import com.app.adventure.game.model.fight.statistics.value.Armor
-import com.app.adventure.game.model.fight.statistics.value.Hp
-import com.app.adventure.game.model.fight.statistics.value.Strength
+import com.app.adventure.game.model.fight.statistics.CharacterStats
+import com.app.adventure.game.model.fight.statistics.StatisticsFactory
 import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceValue
 import com.app.adventure.game.model.resources.ResourceName
 import org.junit.jupiter.api.Test
 import org.springframework.test.util.AssertionErrors.assertEquals
@@ -17,12 +16,14 @@ class ExperienceTests {
 
     private val player : Player = Player(
         mutableMapOf(
-            ResourceName.GOLD to Resource(ResourceName.GOLD,30.0),
-        ),
-        mapOf(
-            StatisticsName.STRENGTH to Strength(5),
-            StatisticsName.HP to Hp(50),
-            StatisticsName.ARMOR to Armor(3)
+            ResourceName.GOLD to ResourceValue(30.0),
+        ), CharacterStats(
+            mapOf(
+                StatisticsName.STRENGTH.attributeName to 5,
+                StatisticsName.HP.attributeName to 50,
+                StatisticsName.ARMOR.attributeName to 3
+            ),
+            StatisticsFactory()
         ),
         mutableMapOf(),
         Experience(LevelProperties(TreeSet(listOf(1000, 3000, 5000, 8000, 11000, 15000, 19000)),4))
@@ -43,9 +44,9 @@ class ExperienceTests {
         testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
         //then
-        assertEquals("",5,testPlayer.getStats()[StatisticsName.STRENGTH]?.getValue())
-        assertEquals("",50,testPlayer.getStats()[StatisticsName.HP]?.getValue())
-        assertEquals("",3,testPlayer.getStats()[StatisticsName.ARMOR]?.getValue())
+        assertEquals("",5,testPlayer.getCharacterStats().getStats()[StatisticsName.STRENGTH]?.getValue())
+        assertEquals("",50,testPlayer.getCharacterStats().getStats()[StatisticsName.HP]?.getValue())
+        assertEquals("",3,testPlayer.getCharacterStats().getStats()[StatisticsName.ARMOR]?.getValue())
     }
 
     @Test
@@ -63,9 +64,9 @@ class ExperienceTests {
         testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
         //then
-        assertEquals("",7,testPlayer.getStats()[StatisticsName.STRENGTH]?.getValue())
-        assertEquals("",60,testPlayer.getStats()[StatisticsName.HP]?.getValue())
-        assertEquals("",4,testPlayer.getStats()[StatisticsName.ARMOR]?.getValue())
+        assertEquals("",7,testPlayer.getCharacterStats().getStats()[StatisticsName.STRENGTH]?.getValue())
+        assertEquals("",60,testPlayer.getCharacterStats().getStats()[StatisticsName.HP]?.getValue())
+        assertEquals("",4,testPlayer.getCharacterStats().getStats()[StatisticsName.ARMOR]?.getValue())
     }
 
     @Test
@@ -82,9 +83,9 @@ class ExperienceTests {
         //when
         testPlayer.addStatsUp(statsUp)
         //then
-        assertEquals("",5,testPlayer.getStats()[StatisticsName.STRENGTH]?.getValue())
-        assertEquals("",50,testPlayer.getStats()[StatisticsName.HP]?.getValue())
-        assertEquals("",3,testPlayer.getStats()[StatisticsName.ARMOR]?.getValue())
+        assertEquals("",5,testPlayer.getCharacterStats().getStats()[StatisticsName.STRENGTH]?.getValue())
+        assertEquals("",50,testPlayer.getCharacterStats().getStats()[StatisticsName.HP]?.getValue())
+        assertEquals("",3,testPlayer.getCharacterStats().getStats()[StatisticsName.ARMOR]?.getValue())
     }
 
     @Test
@@ -99,10 +100,10 @@ class ExperienceTests {
             )
         )
         //when
-        testPlayer.getHp().takeDamage(13)
+        testPlayer.getCharacterStats().getHp().takeDamage(13)
         testPlayer.getExperience().addExperience(1250)
         testPlayer.addStatsUp(statsUp)
         //then
-        assertEquals("",57,testPlayer.getHp().getCurrentHp())
+        assertEquals("",57,testPlayer.getCharacterStats().getHp().getCurrentHp())
     }
 }

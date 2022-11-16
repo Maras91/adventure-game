@@ -3,14 +3,13 @@ package com.app.adventure.game.model.characters
 import com.app.adventure.game.controller.ItemsController
 import com.app.adventure.game.model.fight.experience.Experience
 import com.app.adventure.game.model.fight.experience.LevelProperties
+import com.app.adventure.game.model.fight.statistics.CharacterStats
+import com.app.adventure.game.model.fight.statistics.StatisticsFactory
 import com.app.adventure.game.model.fight.statistics.StatisticsName
-import com.app.adventure.game.model.fight.statistics.value.Armor
-import com.app.adventure.game.model.fight.statistics.value.Hp
-import com.app.adventure.game.model.fight.statistics.value.Strength
 import com.app.adventure.game.model.item.DisposableItem
 import com.app.adventure.game.model.item.Inventory
 import com.app.adventure.game.model.item.ItemEffects
-import com.app.adventure.game.model.resources.Resource
+import com.app.adventure.game.model.resources.ResourceValue
 import com.app.adventure.game.model.resources.ResourceName
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
@@ -20,12 +19,14 @@ import java.util.*
 class ItemsTests {
     private val player = Player(
         mutableMapOf(
-            ResourceName.GOLD to Resource(ResourceName.GOLD,30.0),
-        ),
-        mapOf(
-            StatisticsName.STRENGTH to Strength(1),
-            StatisticsName.HP to Hp(20),
-            StatisticsName.ARMOR to Armor(1)
+            ResourceName.GOLD to ResourceValue(30.0),
+        ), CharacterStats(
+            mapOf(
+                StatisticsName.STRENGTH.attributeName to 1,
+                StatisticsName.HP.attributeName to 20,
+                StatisticsName.ARMOR.attributeName to 1
+            ),
+            StatisticsFactory()
         ),
         mutableMapOf(),
         Experience(LevelProperties(TreeSet(listOf(0)),0))
@@ -55,11 +56,11 @@ class ItemsTests {
         )
         val itemController = ItemsController(player, Inventory(mutableMapOf( itemName to potion)))
         //when
-        player.getHp().takeDamage(10)
+        player.getCharacterStats().getHp().takeDamage(10)
         itemController.buyItems(itemName)
         itemController.useItem(itemName)
         //then
-        Assertions.assertEquals(expectedHp,player.getHp().getCurrentHp())
+        Assertions.assertEquals(expectedHp,player.getCharacterStats().getHp().getCurrentHp())
         Assertions.assertEquals(expectedGold,player.getResources()[ResourceName.GOLD]?.getValue())
     }
 
@@ -88,11 +89,11 @@ class ItemsTests {
         )
         val itemController = ItemsController(player, Inventory(mutableMapOf(itemCreateName to potion)))
         //when
-        player.getHp().takeDamage(10)
+        player.getCharacterStats().getHp().takeDamage(10)
         itemController.buyItems(itemBuyName)
         itemController.useItem(itemBuyUse)
         //then
-        Assertions.assertEquals(expectedHp,player.getHp().getCurrentHp())
+        Assertions.assertEquals(expectedHp,player.getCharacterStats().getHp().getCurrentHp())
         Assertions.assertEquals(expectedGold,player.getResources()[ResourceName.GOLD]?.getValue())
     }
 }
