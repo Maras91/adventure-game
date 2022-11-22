@@ -24,6 +24,18 @@ class ItemsController @Autowired constructor(
         return allItems.getItems()
     }
 
+    @PostMapping("/getDisposableItems")
+    @ResponseBody
+    fun getDisposableItems(): Map<String, Item> {
+        return allItems.getAllDisposableItem()
+    }
+
+    @PostMapping("/getNotDisposableItems")
+    @ResponseBody
+    fun getNotDisposableItems(): Map<String, Item> {
+        return allItems.getAllNotDisposableItem()
+    }
+
     @PostMapping("/buyItem")
     @ResponseBody
     fun buyItems(@RequestBody name :String) {
