@@ -15,6 +15,7 @@ function AdventureView(){
        resourcesView: new Map(),
        disposableItemsView: new Map(),
        notDisposableItemsView: new Map(),
+       wearingItems: new Map(),
        experienceView: {
            value: null,
            nextLevelExp: null,
@@ -51,7 +52,7 @@ function AdventureView(){
                     <PlayerStatsView playerStats={stats.fightStatsView}/>
                 </div>
                 <div className="col-md-2 border">
-                    <UsingItemsView />
+                    <UsingItemsView wearingItems={stats.wearingItems} />
                 </div>
                 <div className="col-md-3 border">
                     <ExperienceView experienceView={stats.experienceView} />

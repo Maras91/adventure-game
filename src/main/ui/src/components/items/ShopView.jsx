@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import _ from 'lodash';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import DisposableItemDescription from "./tooltip/DisposableItemDescription";
+import NotDisposableItemDescription from "./tooltip/NotDisposableItemDescription";
 
 function ShopView({updateFunction}){
     const [notDisposableItems, setNotDisposableItems] = useState(new Map())
@@ -48,25 +50,13 @@ function ShopView({updateFunction}){
                              body: name
                            }).then(response => updateFunction())
     }
-    function displayNotDisposableItemDescription (notDisposableItem) {
-        return <Tooltip>
-                {notDisposableItem.itemType}<br/>
-                {Object.entries(notDisposableItem.attributes).map(([attribute,value]) => <div key={attribute}>{attribute}:+{value} </div>)}
-               </Tooltip>
-    }
-    function displayDisposableItemDescription (disposableItem) {
-            return <Tooltip>
-                    Potion<br/>
-                    {Object.entries(disposableItem.itemEffects).map(([effect,value]) => <div key={effect}>{effect}:+{value} </div>)}
-                   </Tooltip>
-        }
     return(
         <>
         <h3>Shop:</h3>
         {
             Object.entries(notDisposableItems).map(([name,item]) =>
             <li key={name}>
-                <OverlayTrigger placement="top" overlay={displayNotDisposableItemDescription(item)}>
+                <OverlayTrigger placement="top" overlay={<Tooltip><NotDisposableItemDescription item = {item} /></Tooltip>}>
                     <span>
                         <img src="/images/buy_button.png" onClick = {() => buyItem(name)} style={{wight: 25}, {height: 25}} alt="images" />
                          {name} ${item.bayCost} gold
@@ -78,7 +68,7 @@ function ShopView({updateFunction}){
         {
             Object.entries(disposableItems).map(([name,item]) =>
             <li key={name}>
-                <OverlayTrigger placement="top" overlay={displayDisposableItemDescription(item)}>
+                <OverlayTrigger placement="top" overlay={<Tooltip><DisposableItemDescription item = {item} /></Tooltip>}>
                     <span>
                         <img src="/images/buy_button.png" onClick = {() => buyItem(name)} style={{wight: 25}, {height: 25}} alt="images" />
                          {name} ${item.bayCost} gold

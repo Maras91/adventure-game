@@ -1,5 +1,6 @@
 package com.app.adventure.game.model.item
 
-enum class ItemType {
-    SWORD,SHIELD,TROUSERS,HELMET,ARMOR,BOOTS,LEFT_HAND_RING,RIGHT_HAND_RING
+enum class ItemType(val typeName : String) {
+    SWORD("sword"),SHIELD("shield"),TROUSERS("trousers"),HELMET("helmet"),
+    ARMOR("armor"),BOOTS("boots"),LEFT_HAND_RING("left hand ring"),RIGHT_HAND_RING("right hand ring")
 }

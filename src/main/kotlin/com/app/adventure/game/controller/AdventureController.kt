@@ -5,6 +5,7 @@ import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
 import com.app.adventure.game.model.fight.experience.LevelService
+import com.app.adventure.game.model.item.ItemType
 import com.app.adventure.game.view.ExperienceView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -44,13 +45,14 @@ class AdventureController @Autowired constructor(
     @PostMapping("/adventureStats")
     @ResponseBody
     fun getPlayer() : PlayerView {
-        //TODO Do I need to add some mappers?
+        //TODO I need to add some mappers
         return PlayerView(
             player.getCharacterStats().getStats().map { (k,v) -> k.attributeName to v.getValue() }
                 .toMap().plus("currentHp" to player.getCharacterStats().getHp().getCurrentHp()),
             player.getResources().map { (k,v) -> k.rscName to v.getValue() }.toMap(),
             player.inventory.getAllDisposableItem(),
             player.inventory.getAllNotDisposableItem(),
+            player.getWearingItems().mapKeys { it.key.typeName }.toMap(),
             ExperienceView(player.getExperience()),
             player.getExperience().allStatsPointsToSpend() -
                     player.getCharacterStats().allSpentLevelPoints())

@@ -16,6 +16,10 @@ class Player(private val resources: MutableMap<ResourceName, ResourceValue>,
         return resources
     }
 
+    fun getWearingItems() : MutableMap<ItemType,NotDisposableItem> {
+        return wearingItems
+    }
+
     fun getExperience() : Experience {
         return experience
     }
