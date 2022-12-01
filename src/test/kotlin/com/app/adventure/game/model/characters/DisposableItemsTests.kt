@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.util.*
 
-class ItemsTests {
+class DisposableItemsTests {
     private val player = Player(
         mutableMapOf(
             ResourceName.GOLD to ResourceValue(30.0),
