@@ -7,6 +7,7 @@ import MonstersView from './fight/MonstersView';
 import ItemsView from './items/ItemsView';
 import UsingItemsView from './items/UsingItemsView';
 import Footer from './Footer';
+import NavBar from './NavBar';
 import _ from 'lodash';
 
 function AdventureView(){
@@ -64,6 +65,7 @@ function AdventureView(){
                 <ItemsView updateFunction={getStatsData} notDisposableItemsView={stats.notDisposableItemsView} disposableItemsView={stats.disposableItemsView} />
             </div>
             <MonstersView updateFunction={getStatsData} />
+            <NavBar/>
             <Footer />
         </>
     );
