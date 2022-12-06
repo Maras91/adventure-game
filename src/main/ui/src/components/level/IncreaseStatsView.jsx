@@ -15,30 +15,30 @@ function IncreaseStats ({updateFunction, levelUpPoints}) {
                 setStats(varStats);
             }, [levelUpPoints]);
     function changeStrength(operation: String) {
-        if (operation == "+" && varStats.pointsToSpend>0) {
+        if (operation === "+" && varStats.pointsToSpend>0) {
             varStats.strength++;
             varStats.pointsToSpend--;
-        } else if (operation == "-" && varStats.strength>0) {
+        } else if (operation === "-" && varStats.strength>0) {
             varStats.strength--;
             varStats.pointsToSpend++;
         }
         setStats(varStats);
     }
     function changeHp(operation: String) {
-        if (operation == "+" && stats.pointsToSpend>0) {
+        if (operation === "+" && stats.pointsToSpend>0) {
             varStats.hp = varStats.hp+HP_PER_POINT;
             varStats.pointsToSpend--;
-        } else if (operation == "-" && stats.hp>0) {
+        } else if (operation === "-" && stats.hp>0) {
             varStats.hp = varStats.hp-HP_PER_POINT;
             varStats.pointsToSpend++;
         }
         setStats(varStats);
     }
     function changeArmor(operation: String) {
-        if (operation == "+" && stats.pointsToSpend>0) {
+        if (operation === "+" && stats.pointsToSpend>0) {
             varStats.armor++;
             varStats.pointsToSpend--;
-        } else if (operation == "-" && stats.armor>0) {
+        } else if (operation === "-" && stats.armor>0) {
              varStats.armor--;
              varStats.pointsToSpend++;
         }

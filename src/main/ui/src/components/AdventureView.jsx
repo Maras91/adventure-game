@@ -3,11 +3,10 @@ import PlayerStatsView from './fight/PlayerStatsView';
 import ExperienceView from './level/ExperienceView';
 import ResourcesView from './fight/ResourcesView';
 import IncreaseStats from './level/IncreaseStatsView';
-import MonstersView from './fight/MonstersView';
-import ItemsView from './items/ItemsView';
+import InventoryView from './items/InventoryView'
 import UsingItemsView from './items/UsingItemsView';
 import Footer from './Footer';
-import NavBar from './NavBar';
+import NavBar from './menu/NavBar';
 import _ from 'lodash';
 
 function AdventureView(){
@@ -56,16 +55,23 @@ function AdventureView(){
                 <div className="col-md-2 border">
                     <UsingItemsView wearingItems={stats.wearingItems} />
                 </div>
-                <div className="col-md-3 border">
+                <div className="col-md-2 border">
                     <ExperienceView experienceView={stats.experienceView} />
                     <IncreaseStats updateFunction={getStatsData} levelUpPoints={stats.levelUpPoints} />
                 </div>
+                <div className="col-md-2 border">
+                    <InventoryView updateFunction={getStatsData} notDisposableItemsView={stats.notDisposableItemsView} disposableItemsView={stats.disposableItemsView} />
+                </div>
             </div>
             <div className="col-md-4">
-                <ItemsView updateFunction={getStatsData} notDisposableItemsView={stats.notDisposableItemsView} disposableItemsView={stats.disposableItemsView} />
+                <div className="row">
+                    <div className="col-md-6 border">
+
+                    </div>
+                </div>
             </div>
-            <MonstersView updateFunction={getStatsData} />
-            <NavBar/>
+
+            <NavBar updateFunction={getStatsData} />
             <Footer />
         </>
     );

@@ -1,7 +1,7 @@
 import City from './City';
 import Dungeon from './Dungeon'
 import {Route, Routes, Link} from 'react-router-dom'
-export default function NavBar() {
+export default function NavBar({updateFunction}) {
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -10,9 +10,9 @@ export default function NavBar() {
                 <Link className="navbar-brand" to="/dungeon">DUNGEON</Link>
             </nav>
             <Routes>
-                <Route path='/' element={<City />} />
-                <Route path='/city' element={<City />} />
-                <Route path='/dungeon' element={<Dungeon />} />
+                <Route path='/' element={<City updateFunction = {updateFunction} />} />
+                <Route path='/city' element={<City updateFunction = {updateFunction} />} />
+                <Route path='/dungeon' element={<Dungeon updateFunction = {updateFunction} />} />
             </Routes>
         </>
     )
