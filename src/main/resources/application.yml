@@ -1,8 +1,8 @@
 player:
   resources:
-    gold: 100.3
-    iron: 1.5
-    food: 1.2
+    gold: 15
+    iron: 0
+    food: 2
   statistics:
     strength: 7
     armor: 5
@@ -16,9 +16,9 @@ battle:
         iron: 0
         food: 2
       statistics:
-        strength: 5
-        armor: 3
-        hp: 25
+        strength: 7
+        armor: 5
+        hp: 30
       experience: 200
     -
       name: orc
@@ -27,20 +27,20 @@ battle:
         iron: 3
         food: 5
       statistics:
-        strength: 10
-        armor: 5
-        hp: 75
+        strength: 15
+        armor: 8
+        hp: 100
       experience: 750
     -
-      name: worlock
+      name: warlock
       resources:
         gold: 50
         iron: 5
         food: 5
       statistics:
-        strength: 20
-        armor: 10
-        hp: 200
+        strength: 30
+        armor: 15
+        hp: 250
       experience: 2500
 level:
   points-per-level: 4
@@ -70,10 +70,10 @@ items:
       sell-cost: 4.0
       has-permanent-effect: true
       effects:
-        hp-recovery: 20
+        hp-recovery: 32
   not-disposable:
     -
-      name: "dragon slayer"
+      name: "iron sword"
       bay-cost: 15.0
       sell-cost: 5.0
       attributes:
@@ -81,10 +81,25 @@ items:
         hp: 20
       itemType: sword
     -
+      name: "dragon slayer"
+      bay-cost: 100.0
+      sell-cost: 5.0
+      attributes:
+        strength: 15
+        hp: 20
+      itemType: sword
+    -
       name: "wooden shield"
-      bay-cost: 5.0
+      bay-cost: 15.0
       sell-cost: 5.0
       attributes:
         hp: 10
         armor: 2
+      itemType: shield
+    -
+      name: "iron shield"
+      bay-cost: 50.0
+      sell-cost: 5.0
+      attributes:
+        armor: 8
       itemType: shield

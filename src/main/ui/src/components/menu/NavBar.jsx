@@ -1,10 +1,10 @@
 import City from './City';
-import Dungeon from './Dungeon'
+import Dungeon from './dungeon/Dungeon'
 import {Route, Routes, Link} from 'react-router-dom'
 export default function NavBar({updateFunction}) {
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light col-md-10">
                 <Link className="navbar-brand" to="/city">CITY</Link>
                 <br />
                 <Link className="navbar-brand" to="/dungeon">DUNGEON</Link>

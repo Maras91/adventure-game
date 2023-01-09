@@ -24,7 +24,7 @@ function AdventureView(){
        },
        levelUpPoints: null
    });
-   const getStatsData = ()=> {
+   function getStatsData() {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -33,7 +33,7 @@ function AdventureView(){
         fetch('/adventureStats', requestOptions)
             .then(response => response.json())
             .then(data => {
-            setStats(_.cloneDeep(data));
+                setStats(_.cloneDeep(data));
             })
             .catch(error => {
                           this.setState({ errorMessage: error.toString() });
