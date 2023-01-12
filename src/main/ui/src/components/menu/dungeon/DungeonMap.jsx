@@ -2,7 +2,7 @@ import useRequest from './../../common/UseRequest';
 import '../../../App.css';
 import React, {useState,useEffect} from 'react';
 import _ from 'lodash';
-//TODO functions should start from lower case
+
 export default function DungeonMap() {
     const [mapInArray, isMapInArrayLoading] = useRequest("/getMap")
     const [moveDirection, setMoveDirection] = useState(
@@ -59,8 +59,9 @@ export default function DungeonMap() {
     console.log("mapInArray: ", mapInArray)
 
     return(
-    <div>
-        <div>
+    <div className = "row">
+        <div className="col-md-3">
+            <h3>Dungeon map</h3>
             {   isMapInArrayLoading ? (<div>Loading...</div>) :
                 (
                     mapInArray.map((row) => {
@@ -77,15 +78,26 @@ export default function DungeonMap() {
                 )
             }
         </div>
-        <div className = "text-center">
-            {isMapInArrayLoading ? (<></>): (
-                <>
-                    <button type = "button" disabled={!moveDirection.up}>UP</button><br/>
-                    <button type = "button" disabled={!moveDirection.left}>LEFT</button>
-                    <button type = "button" disabled={!moveDirection.right}>RIGHT</button><br/>
-                    <button type = "button" disabled={!moveDirection.down}>DOWN</button>
-                </>
-            )}
+        <div className="col-md-9">
+            <div className= "w-75 h-50 overflow-auto border" disabled="true">
+              Welcome to the dungeon! The map is on your left side. Green square represents YOU.<br/>
+              Here you can see logs what is currently happened. Good luck!!! <br/>
+              There is nothing special in this room. You can go on.
+
+
+            </div>
+            <div className = "text-center">
+                {isMapInArrayLoading ? (<></>): (
+                    <>
+                        <p>Your actions: </p>
+                        <button type = "button" style={{display: !moveDirection.up ? "none" : "inline"}}>GO UP</button>
+                        <button type = "button" style={{display: !moveDirection.left ? "none" : "inline"}}>GO LEFT</button>
+                        <button type = "button" style={{display: !moveDirection.right ? "none" : "inline"}}>GO RIGHT</button>
+                        <button type = "button" style={{display: !moveDirection.down ? "none" : "inline"}}>GO DOWN</button>
+                        <button type = "button" style={{display: !moveDirection.up ? "none" : "inline"}}>RUN AWAY!</button>
+                    </>
+                )}
+            </div>
         </div>
     </div>
     )
