@@ -4,7 +4,8 @@ import React, {useState,useEffect} from 'react';
 import _ from 'lodash';
 
 export default function DungeonMap() {
-    const [mapInArray, isMapInArrayLoading] = useRequest("/getMap")
+    const [isLoading, setIsLoading] = useState(true)
+    const [mapInArray, setMapInArray] = useState()
     const [moveDirection, setMoveDirection] = useState(
         {
             up: false,
@@ -13,6 +14,41 @@ export default function DungeonMap() {
             down: false
         }
     )
+
+    async function sendRequest() {
+        console.log("sendRequest start")
+        setIsLoading(true)
+        const requestOptions = {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify()
+                }
+        try{
+            let response = await fetch("/getMap", requestOptions)
+            let data = await response.json()
+            setMapInArray(_.cloneDeep(data))
+            setIsLoading(false)
+        } catch (e) {
+            console.log(e)
+            setIsLoading(false)
+        }
+    }
+    async function playerMove(direction) {
+        const requestOptions = {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: direction
+                }
+        try{
+            let response = await fetch("/playerMove", requestOptions)
+            let data = await response.json()
+        } catch (e) {
+            console.log(e)
+        }
+        sendRequest()
+        setMoveDirections()
+    }
+
     function setMoveDirections() {
         let xAxis= -1
         let yAxis= -1
@@ -37,10 +73,16 @@ export default function DungeonMap() {
     }
 
     useEffect(() => {
-        if (!isMapInArrayLoading) {
+      console.log("empty useEffect")
+      sendRequest()
+    },[])
+
+    useEffect(() => {
+        console.log("useEffect with isLoading")
+        if (!isLoading) {
             setMoveDirections()
         }
-    },[isMapInArrayLoading])
+    },[isLoading])
 
     function setDirections() {
 
@@ -55,14 +97,12 @@ export default function DungeonMap() {
         }
         return "white"
     }
-    console.log("isMapInArrayLoading: ", isMapInArrayLoading)
-    console.log("mapInArray: ", mapInArray)
 
     return(
     <div className = "row">
         <div className="col-md-3">
             <h3>Dungeon map</h3>
-            {   isMapInArrayLoading ? (<div>Loading...</div>) :
+            {   isLoading ? (<div>Loading...</div>) :
                 (
                     mapInArray.map((row) => {
                        return (
@@ -87,13 +127,13 @@ export default function DungeonMap() {
 
             </div>
             <div className = "text-center">
-                {isMapInArrayLoading ? (<></>): (
+                {isLoading ? (<></>): (
                     <>
                         <p>Your actions: </p>
-                        <button type = "button" style={{display: !moveDirection.up ? "none" : "inline"}}>GO UP</button>
-                        <button type = "button" style={{display: !moveDirection.left ? "none" : "inline"}}>GO LEFT</button>
-                        <button type = "button" style={{display: !moveDirection.right ? "none" : "inline"}}>GO RIGHT</button>
-                        <button type = "button" style={{display: !moveDirection.down ? "none" : "inline"}}>GO DOWN</button>
+                        <button type = "button" onClick={() =>playerMove("up")} style={{display: !moveDirection.up ? "none" : "inline"}}>GO UP</button>
+                        <button type = "button" onClick={() =>playerMove("left")} style={{display: !moveDirection.left ? "none" : "inline"}}>GO LEFT</button>
+                        <button type = "button" onClick={() =>playerMove("right")} style={{display: !moveDirection.right ? "none" : "inline"}}>GO RIGHT</button>
+                        <button type = "button" onClick={() =>playerMove("down")} style={{display: !moveDirection.down ? "none" : "inline"}}>GO DOWN</button>
                         <button type = "button" style={{display: !moveDirection.up ? "none" : "inline"}}>RUN AWAY!</button>
                     </>
                 )}
