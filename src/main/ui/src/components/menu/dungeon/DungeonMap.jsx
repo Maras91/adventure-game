@@ -3,7 +3,7 @@ import '../../../App.css';
 import React, {useState,useEffect} from 'react';
 import _ from 'lodash';
 
-export default function DungeonMap() {
+export default function DungeonMap({updateFunction}) {
     const [isLoading, setIsLoading] = useState(true)
     const [mapInArray, setMapInArray] = useState()
     const [moveDirection, setMoveDirection] = useState(
@@ -14,9 +14,9 @@ export default function DungeonMap() {
             down: false
         }
     )
+    const [isMonster, setIsMonster] = useState(false)
 
     async function sendRequest() {
-        console.log("sendRequest start")
         setIsLoading(true)
         const requestOptions = {
                     method: "POST",
@@ -46,30 +46,48 @@ export default function DungeonMap() {
             console.log(e)
         }
         sendRequest()
-        setMoveDirections()
+        setButtons()
     }
 
-    function setMoveDirections() {
+    function setButtons() {
+        let xAxis
+        let yAxis
+        [yAxis,xAxis] = getPlayersPosition()
+        setIsMonster(checkMonster(yAxis,xAxis))
+        setMoveDirections(yAxis,xAxis)
+    }
+    function getPlayersPosition() {
         let xAxis= -1
         let yAxis= -1
         for (let y=0; y<mapInArray.length; y++) {
             console.log("mapInArray: ",mapInArray.length)
             for(let x=0; x<mapInArray[y].length; x++) {
-                if (mapInArray[y][x] === 2) {
+                if (mapInArray[y][x].fieldType === "PLAYER") {
                     xAxis= x
                     yAxis= y
                 }
             }
         }
-        console.log(yAxis)
-        console.log(xAxis)
-        let directions = _.cloneDeep(moveDirection)
-        directions.up = yAxis > 0 && mapInArray[yAxis-1][xAxis] === 1
-        directions.left = xAxis > 0 && mapInArray[yAxis][xAxis-1] === 1
-        directions.right = xAxis+1 < mapInArray[yAxis].length && mapInArray[yAxis][xAxis+1] === 1
-        directions.down = yAxis+1 < mapInArray.length && mapInArray[yAxis+1][xAxis] === 1
-        setMoveDirection(directions)
+        return [yAxis,xAxis]
+    }
 
+    function setMoveDirections(yAxis,xAxis) {
+        let directions = _.cloneDeep(moveDirection)
+        directions.up = yAxis > 0 && mapInArray[yAxis-1][xAxis].fieldType !== "WALL"
+        directions.left = xAxis > 0 && mapInArray[yAxis][xAxis-1].fieldType !== "WALL"
+        directions.right = xAxis+1 < mapInArray[yAxis].length && mapInArray[yAxis][xAxis+1].fieldType !== "WALL"
+        directions.down = yAxis+1 < mapInArray.length && mapInArray[yAxis+1][xAxis].fieldType !== "WALL"
+        setMoveDirection(directions)
+    }
+
+    function checkMonster(yAxis,xAxis) {
+        console.log("checkMonster: ", mapInArray[yAxis][xAxis])
+        if ( mapInArray[yAxis][xAxis].hasOwnProperty('monster') && mapInArray[yAxis][xAxis].monster !== null) {
+            console.log("checkMonster return true")
+            return true
+        }
+        console.log("checkMonster return false")
+        return false
     }
 
     useEffect(() => {
@@ -80,7 +98,7 @@ export default function DungeonMap() {
     useEffect(() => {
         console.log("useEffect with isLoading")
         if (!isLoading) {
-            setMoveDirections()
+            setButtons()
         }
     },[isLoading])
 
@@ -88,16 +106,24 @@ export default function DungeonMap() {
 
     }
 
-    function setColor(colorNumber: Integer) {
-        if (colorNumber === 1) {
+    function setColor(field) {
+        if(field.fieldType === "WALL") {
+            return "white"
+        }
+        if(field.fieldType === "TUNNEL") {
             return "yellow"
         }
-        if (colorNumber === 2) {
-            return "lime"
+        if(field.fieldType === "PLAYER") {
+                    return "lime"
         }
-        return "white"
+        return "black"
     }
 
+    function attackMonster() {
+
+    }
+
+    console.log("dungeon map: ",mapInArray)
     return(
     <div className = "row">
         <div className="col-md-3">
@@ -106,10 +132,10 @@ export default function DungeonMap() {
                 (
                     mapInArray.map((row) => {
                        return (
-                           <div className = "board-row">
+                           <div className = "board-row" >
                                 {
-                                    row.map( (colorNumber) => {
-                                        return (<><button className = "square" style={{backgroundColor: setColor(colorNumber)}}/></>)
+                                    row.map( (field) => {
+                                        return (<><button className = "square" style={{backgroundColor: setColor(field)}}/></>)
                                     })
                                 }
                            </div>
@@ -130,11 +156,12 @@ export default function DungeonMap() {
                 {isLoading ? (<></>): (
                     <>
                         <p>Your actions: </p>
-                        <button type = "button" onClick={() =>playerMove("up")} style={{display: !moveDirection.up ? "none" : "inline"}}>GO UP</button>
-                        <button type = "button" onClick={() =>playerMove("left")} style={{display: !moveDirection.left ? "none" : "inline"}}>GO LEFT</button>
-                        <button type = "button" onClick={() =>playerMove("right")} style={{display: !moveDirection.right ? "none" : "inline"}}>GO RIGHT</button>
-                        <button type = "button" onClick={() =>playerMove("down")} style={{display: !moveDirection.down ? "none" : "inline"}}>GO DOWN</button>
-                        <button type = "button" style={{display: !moveDirection.up ? "none" : "inline"}}>RUN AWAY!</button>
+                        <button type = "button" onClick={() =>playerMove("up")} disabled={!moveDirection.up}>GO UP</button>
+                        <button type = "button" onClick={() =>playerMove("left")} disabled={!moveDirection.left}>GO LEFT</button>
+                        <button type = "button" onClick={() =>playerMove("right")} disabled={!moveDirection.right}>GO RIGHT</button>
+                        <button type = "button" onClick={() =>playerMove("down")} disabled={!moveDirection.down}>GO DOWN</button>
+                        <button type = "button" onClick={() =>attackMonster("goblin")} style={{display: isMonster ? "inline" : "none"}}>Attack Monster</button>
+                        <button type = "button">RUN AWAY!</button>
                     </>
                 )}
             </div>

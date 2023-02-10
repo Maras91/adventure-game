@@ -4,7 +4,7 @@ import DungeonMap from './DungeonMap'
 export default function dungeon( {updateFunction} ) {
     return (
     <div>
-        <DungeonMap />
+        <DungeonMap updateFunction={updateFunction}/>
 {/*         <MonstersView updateFunction={updateFunction} /> */}
     </div>
     )

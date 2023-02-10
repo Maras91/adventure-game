@@ -58,6 +58,7 @@ class AdventureController @Autowired constructor(
                     player.getCharacterStats().allSpentLevelPoints())
     }
 
+    //TODO function probably not required
     @PostMapping("/allMonsters")
     @ResponseBody
     fun getAllMonsters() : List<String> {
