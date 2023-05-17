@@ -1,8 +1,9 @@
 package com.app.adventure.game.model.dungeon
 
-import com.app.adventure.game.model.characters.Monster
 
 interface MapField {
-    val fieldType :FiledType
-    val monster :Monster?
+    val fieldType :FieldType
+    val adventure :DungeonField?
+    fun isPlayerIn(): Boolean
+    fun setPlayer()
 }

@@ -2,6 +2,7 @@ package com.app.adventure.game.controller
 
 import com.app.adventure.game.model.dungeon.*
 import com.app.adventure.game.model.fight.BattleProperties
+import com.app.adventure.game.view.DungeonMapView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
@@ -10,21 +11,36 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class DungeonController @Autowired constructor(final val battleProperties: BattleProperties) {
-    var playerPositionAsiX = 1
-    var playerPositionAsiY = 0
-
-    final val lineOne = arrayOf(Tunnel(battleProperties.monsters["goblin"]),Tunnel(battleProperties.monsters["goblin"]),Tunnel(battleProperties.monsters["goblin"]),Wall(),Tunnel(null))
-    final val lineTwo = arrayOf(Tunnel(null),Wall(),Tunnel(null),Tunnel(null),Tunnel(null))
-    final val lineThree = arrayOf(Wall(),Tunnel(battleProperties.monsters["goblin"]),Tunnel(battleProperties.monsters["goblin"]),Wall(),Wall())
+    var playerPosition = PlayerPosition(1,0)
+    final val lineOne: Array<DungeonField> = arrayOf(
+        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
+        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
+        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
+        DungeonField(null,FieldType.WALL),
+        DungeonField(null,FieldType.TUNNEL))
+    final val lineTwo: Array<DungeonField> = arrayOf(
+        DungeonField(null,FieldType.TUNNEL),
+        DungeonField(null,FieldType.WALL),
+        DungeonField(null,FieldType.TUNNEL),
+        DungeonField(null,FieldType.TUNNEL),
+        DungeonField(null,FieldType.TUNNEL))
+    final val lineThree: Array<DungeonField> = arrayOf(
+        DungeonField(null,FieldType.WALL),
+        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
+        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
+        DungeonField(null,FieldType.WALL),
+        DungeonField(null,FieldType.WALL),)
     private val dungeonMap = arrayOf(lineOne,lineTwo,lineThree)
 
     @PostMapping("/getMap")
     @ResponseBody
-    fun getDungeonMap() : Array<Array<MapField>> {
-        val arrayToSend = dungeonMap.copy()
-        arrayToSend[playerPositionAsiY][playerPositionAsiX] = PlayerField(arrayToSend[playerPositionAsiY][playerPositionAsiX].monster)
-        //TODO maybe return the constructor with map and player position as a second parameter
-        return arrayToSend
+    fun getDungeonMap() : DungeonMapView {
+        val actionsAvailable = PlayerAvailableActions(dungeonMap, playerPosition)
+        return DungeonMapView(
+            playerPosition,
+            dungeonMap.map { fieldRow -> fieldRow.map{ field -> field.fieldType } },
+            actionsAvailable.getView(),
+            dungeonMap[playerPosition.axisY][playerPosition.axisX])
     }
 
     fun Array<Array<MapField>>.copy() = map { it.clone() }.toTypedArray()
@@ -32,29 +48,18 @@ class DungeonController @Autowired constructor(final val battleProperties: Battl
     @PostMapping("/playerMove")
     @ResponseBody
     fun getPlayerPosition(@RequestBody direction: String) {
-        if (direction == "up" &&
-            playerPositionAsiY>0 &&
-            dungeonMap[playerPositionAsiY-1][playerPositionAsiX].fieldType != FiledType.WALL
-        ) {
-            playerPositionAsiY--;
+        val actionsAvailable = PlayerAvailableActions(dungeonMap, playerPosition)
+        if (direction == "up" && actionsAvailable.goUp) {
+            playerPosition.goUp()
         }
-        if (direction == "down" &&
-            playerPositionAsiY<dungeonMap.size-1 &&
-            dungeonMap[playerPositionAsiY+1][playerPositionAsiX].fieldType != FiledType.WALL
-        ) {
-            playerPositionAsiY++;
+        if (direction == "down" && actionsAvailable.goDown) {
+            playerPosition.goDown()
         }
-        if (direction == "left" &&
-            playerPositionAsiX>0 &&
-            dungeonMap[playerPositionAsiY][playerPositionAsiX-1].fieldType != FiledType.WALL
-        ) {
-            playerPositionAsiX--;
+        if (direction == "left" && actionsAvailable.goLeft) {
+            playerPosition.goLeft()
         }
-        if (direction == "right" &&
-            playerPositionAsiX<dungeonMap[playerPositionAsiY].size-1 &&
-            dungeonMap[playerPositionAsiY][playerPositionAsiX+1].fieldType != FiledType.WALL
-        ) {
-            playerPositionAsiX++;
+        if (direction == "right" && actionsAvailable.goRight) {
+            playerPosition.goRight()
         }
     }
 }

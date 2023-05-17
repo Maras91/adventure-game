@@ -1,8 +1,17 @@
 package com.app.adventure.game.model.dungeon
 
-import com.app.adventure.game.model.characters.Monster
+class Tunnel(override val adventure: DungeonField) : MapField{
+    var playerPresent :Boolean = false
+    override val fieldType = FieldType.TUNNEL
+    override fun isPlayerIn(): Boolean {
+        return  playerPresent
+    }
 
-class Tunnel(override val monster : Monster?) : MapField{
-    override val fieldType = FiledType.TUNNEL
+    override fun setPlayer() {
+        playerPresent = true
+    }
+    fun removePlayer() {
+        playerPresent = false
+    }
 
 }
