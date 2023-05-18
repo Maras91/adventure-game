@@ -79,8 +79,14 @@ export default function DungeonMap({updateFunction}) {
         return "black"
     }
 
-    function attackMonster() {
-
+    function attackMonster(monsterName) {
+        fetch('/fight',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: monsterName
+        }
+        ).then(response => updateFunction());
     }
 
     console.log("dungeon view object: ",dungeonView)
@@ -120,7 +126,7 @@ export default function DungeonMap({updateFunction}) {
                         <button type = "button" onClick={() =>playerMove("left")} disabled={!dungeonView.availableActions.goLeft}>GO LEFT</button>
                         <button type = "button" onClick={() =>playerMove("right")} disabled={!dungeonView.availableActions.goRight}>GO RIGHT</button>
                         <button type = "button" onClick={() =>playerMove("down")} disabled={!dungeonView.availableActions.goDown}>GO DOWN</button>
-                        <button type = "button" onClick={() =>attackMonster("goblin")} style={{display: checkMonster(dungeonView.currentAdventure) ? "inline" : "none"}}>Attack Monster</button>
+                        <button type = "button" onClick={() =>attackMonster(dungeonView.currentAdventure.monsterName)} style={{display: checkMonster(dungeonView.currentAdventure) ? "inline" : "none"}}>Attack Monster</button>
                         <button type = "button">RUN AWAY!</button>
                     </>
                 )}

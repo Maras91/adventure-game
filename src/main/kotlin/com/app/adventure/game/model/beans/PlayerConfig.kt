@@ -29,7 +29,7 @@ class PlayerConfig @Autowired constructor (
             }.mapValues {
                 ResourceValue(it.value) } as MutableMap<ResourceName, ResourceValue>,
             CharacterStats(startStatsValues.statistics,statisticsFactory),
-            mutableMapOf(), //TODO add the ability to add stat items
+            mutableMapOf(), //TODO add the ability to get stat items
             Experience(levelProperties)
         )
     }

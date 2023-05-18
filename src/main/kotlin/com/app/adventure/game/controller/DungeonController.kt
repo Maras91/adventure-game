@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.ResponseBody
 class DungeonController @Autowired constructor(final val battleProperties: BattleProperties) {
     var playerPosition = PlayerPosition(1,0)
     final val lineOne: Array<DungeonField> = arrayOf(
-        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
-        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
-        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
-        DungeonField(null,FieldType.WALL),
-        DungeonField(null,FieldType.TUNNEL))
+        DungeonField("goblin",battleProperties,FieldType.TUNNEL),
+        DungeonField("goblin",battleProperties,FieldType.TUNNEL),
+        DungeonField("goblin",battleProperties,FieldType.TUNNEL),
+        DungeonField(null,battleProperties,FieldType.WALL),
+        DungeonField(null,battleProperties,FieldType.TUNNEL))
     final val lineTwo: Array<DungeonField> = arrayOf(
-        DungeonField(null,FieldType.TUNNEL),
-        DungeonField(null,FieldType.WALL),
-        DungeonField(null,FieldType.TUNNEL),
-        DungeonField(null,FieldType.TUNNEL),
-        DungeonField(null,FieldType.TUNNEL))
+        DungeonField(null,battleProperties,FieldType.TUNNEL),
+        DungeonField(null,battleProperties,FieldType.WALL),
+        DungeonField(null,battleProperties,FieldType.TUNNEL),
+        DungeonField(null,battleProperties,FieldType.TUNNEL),
+        DungeonField(null,battleProperties,FieldType.TUNNEL))
     final val lineThree: Array<DungeonField> = arrayOf(
-        DungeonField(null,FieldType.WALL),
-        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
-        DungeonField(battleProperties.monsters["goblin"],FieldType.TUNNEL),
-        DungeonField(null,FieldType.WALL),
-        DungeonField(null,FieldType.WALL),)
+        DungeonField(null,battleProperties,FieldType.WALL),
+        DungeonField("goblin",battleProperties,FieldType.TUNNEL),
+        DungeonField("goblin",battleProperties,FieldType.TUNNEL),
+        DungeonField(null,battleProperties,FieldType.WALL),
+        DungeonField(null,battleProperties,FieldType.WALL),)
     private val dungeonMap = arrayOf(lineOne,lineTwo,lineThree)
 
     @PostMapping("/getMap")
