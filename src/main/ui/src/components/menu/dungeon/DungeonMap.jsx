@@ -86,7 +86,7 @@ export default function DungeonMap({updateFunction}) {
             headers: { 'Content-Type': 'application/json' },
             body: monsterName
         }
-        ).then(response => updateFunction());
+        ).then(response => updateFunction()).then(sendRequest());
     }
 
     console.log("dungeon view object: ",dungeonView)

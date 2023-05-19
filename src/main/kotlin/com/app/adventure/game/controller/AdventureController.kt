@@ -1,6 +1,8 @@
 package com.app.adventure.game.controller
 
 import com.app.adventure.game.model.characters.Player
+import com.app.adventure.game.model.dungeon.DungeonMap
+import com.app.adventure.game.model.dungeon.PlayerPosition
 import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
@@ -19,7 +21,9 @@ class AdventureController @Autowired constructor(
     val combatSimulator: CombatSimulator,
     val battleProperties: BattleProperties,
     var player : Player,
-    val levelService: LevelService
+    val levelService: LevelService,
+    val playerPosition: PlayerPosition,
+    val dungeonMap: DungeonMap
     )
 {
 
@@ -31,6 +35,7 @@ class AdventureController @Autowired constructor(
             combatSimulator.fight(player,monster.getStatsView())
             if (player.getCharacterStats().getHp().getCurrentHp() >0) {
                 player.win(monster)
+                dungeonMap.removeMonster(playerPosition.axisY,playerPosition.axisX)
             }
         }
     }
