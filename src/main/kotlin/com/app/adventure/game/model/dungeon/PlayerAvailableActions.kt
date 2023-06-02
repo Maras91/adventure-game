@@ -2,7 +2,7 @@ package com.app.adventure.game.model.dungeon
 
 import com.app.adventure.game.view.PlayerAvailableActionsView
 
-class PlayerAvailableActions (dungeonMap: Array<Array<DungeonField>>, playerPosition: PlayerPosition){
+class PlayerAvailableActions (dungeonMap: Array<Array<DungeonMapField>>, playerPosition: PlayerPosition){
     val goLeft: Boolean
     val goRight: Boolean
     val goUp: Boolean
@@ -12,14 +12,19 @@ class PlayerAvailableActions (dungeonMap: Array<Array<DungeonField>>, playerPosi
 
     init {
         goUp = playerPosition.axisY>0 &&
-                dungeonMap[playerPosition.axisY-1][playerPosition.axisX].fieldType != FieldType.WALL;
+                dungeonMap[playerPosition.axisY-1][playerPosition.axisX].getFieldType() != FieldType.WALL;
         goDown = playerPosition.axisY<dungeonMap.size-1 &&
-                dungeonMap[playerPosition.axisY+1][playerPosition.axisX].fieldType != FieldType.WALL
+                dungeonMap[playerPosition.axisY+1][playerPosition.axisX].getFieldType() != FieldType.WALL
         goLeft = playerPosition.axisX>0 &&
-                dungeonMap[playerPosition.axisY][playerPosition.axisX-1].fieldType != FieldType.WALL
+                dungeonMap[playerPosition.axisY][playerPosition.axisX-1].getFieldType() != FieldType.WALL
         goRight = playerPosition.axisX<dungeonMap[playerPosition.axisY].size-1 &&
-                dungeonMap[playerPosition.axisY][playerPosition.axisX+1].fieldType != FieldType.WALL
-        monsterFight = dungeonMap[playerPosition.axisY][playerPosition.axisX].monster != null
+                dungeonMap[playerPosition.axisY][playerPosition.axisX+1].getFieldType() != FieldType.WALL
+        if (dungeonMap[playerPosition.axisY][playerPosition.axisX] is TunnelField ) {
+            val tunnel : TunnelField = dungeonMap[playerPosition.axisY][playerPosition.axisX] as TunnelField
+            monsterFight = tunnel.monsterName != null
+        } else {
+            monsterFight = false
+        }
         getTreasure = false
     }
 

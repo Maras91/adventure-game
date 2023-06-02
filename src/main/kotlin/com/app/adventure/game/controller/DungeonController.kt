@@ -20,12 +20,11 @@ class DungeonController @Autowired constructor(
         val actionsAvailable = PlayerAvailableActions(dungeonMap.gameMap, playerPosition)
         return DungeonMapView(
             playerPosition,
-            dungeonMap.gameMap.map { fieldRow -> fieldRow.map{ field -> field.fieldType } },
+            dungeonMap.gameMap.map { fieldRow -> fieldRow.map{ field -> field.getFieldType() } },
             actionsAvailable.getView(),
             dungeonMap.gameMap[playerPosition.axisY][playerPosition.axisX])
     }
 
-    fun Array<Array<MapField>>.copy() = map { it.clone() }.toTypedArray()
 
     @PostMapping("/playerMove")
     @ResponseBody

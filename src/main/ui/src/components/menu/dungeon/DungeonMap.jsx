@@ -49,7 +49,7 @@ export default function DungeonMap({updateFunction}) {
 
      function checkMonster(currentAdventure) {
         console.log("currentAdventure: ", currentAdventure)
-        if (currentAdventure.hasOwnProperty('monster') && currentAdventure.monster !== null) {
+        if (currentAdventure.hasOwnProperty('monsterName') && currentAdventure.monsterName !== null) {
             console.log("checkMonster return true")
             return true
         }
