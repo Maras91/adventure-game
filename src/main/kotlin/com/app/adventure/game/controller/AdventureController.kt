@@ -7,7 +7,6 @@ import com.app.adventure.game.model.fight.BattleProperties
 import com.app.adventure.game.view.PlayerView
 import com.app.adventure.game.model.fight.CombatSimulator
 import com.app.adventure.game.model.fight.experience.LevelService
-import com.app.adventure.game.model.item.ItemType
 import com.app.adventure.game.view.ExperienceView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType

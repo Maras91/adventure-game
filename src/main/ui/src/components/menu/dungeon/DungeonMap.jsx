@@ -79,14 +79,16 @@ export default function DungeonMap({updateFunction}) {
         return "black"
     }
 
-    function attackMonster(monsterName) {
-        fetch('/fight',
+    async function attackMonster(monsterName) {
+        await fetch('/fight',
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: monsterName
         }
-        ).then(response => updateFunction()).then(sendRequest());
+        )
+        updateFunction()
+        sendRequest()
     }
 
     console.log("dungeon view object: ",dungeonView)
