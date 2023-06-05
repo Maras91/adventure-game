@@ -17,8 +17,7 @@ class DungeonConfig @Autowired constructor(val randomMapGeneratorService: Random
 
     @Bean
     fun getDungeonMap(): DungeonMap {
-        //TODO when width is greater then 8 map is not displayed correctly in front end
         //TODO height and width have to set as properties
-        return DungeonMap(randomMapGeneratorService.generateRandomMap(7,7))
+        return DungeonMap(randomMapGeneratorService.generateRandomMap(8,8))
     }
 }

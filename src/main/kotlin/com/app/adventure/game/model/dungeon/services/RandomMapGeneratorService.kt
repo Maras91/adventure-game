@@ -14,7 +14,7 @@ class RandomMapGeneratorService {
 
     fun generateRandomMap(height: Int, width: Int): Array<Array<DungeonMapField>> {
         //TODO change to log function
-        println("seed for rundom dungeon map : "+seed)
+        println("seed for random dungeon map : $seed")
         dungeonMap = Array(height){Array(width){WallField()}}
         dungeonMap[0][0] = setRandomTunnel()
         drawOnes(0, 0)
@@ -58,10 +58,10 @@ class RandomMapGeneratorService {
     }
 
     fun isPointOnTheBound(y: Int,x: Int): Boolean{
-        if(dungeonMap.size <=y || y<0) {
-            return false;
+        return if(dungeonMap.size <=y || y<0) {
+            false;
         } else {
-            return dungeonMap[y].size>x && x>=0;
+            dungeonMap[y].size>x && x>=0;
         }
     }
 

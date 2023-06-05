@@ -92,25 +92,29 @@ export default function DungeonMap({updateFunction}) {
     console.log("dungeon view object: ",dungeonView)
     return(
     <div className = "row">
-        <div className="col-md-3">
+        <div className="col-md-4">
             <h3>Dungeon map</h3>
             {   isLoading ? (<div>Loading...</div>) :
                 (
-                    dungeonMap.map((row) => {
-                       return (
-                           <div className = "board-row" >
-                                {
-                                    row.map( (field) => {
-                                        return (<><button className = "square" style={{backgroundColor: setColor(field)}}/></>)
-                                    })
-                                }
-                           </div>
-                       )
-                    })
+                    <div style={{width: 50*dungeonMap.length}}>
+                        {
+                            dungeonMap.map((row) => {
+                               return (
+                                   <div className = "board-row" >
+                                        {
+                                            row.map( (field) => {
+                                                return (<><button className = "square" style={{backgroundColor: setColor(field)}}/></>)
+                                            })
+                                        }
+                                   </div>
+                               )
+                            })
+                        }
+                    </div>
                 )
             }
         </div>
-        <div className="col-md-9">
+        <div className="col-md-8">
             <div className= "w-75 h-50 overflow-auto border" disabled="true">
               Welcome to the dungeon! The map is on your left side. Green square represents YOU.<br/>
               Here you can see logs what is currently happened. Good luck!!! <br/>
@@ -126,7 +130,7 @@ export default function DungeonMap({updateFunction}) {
                         <button type = "button" onClick={() =>playerMove("left")} disabled={!dungeonView.availableActions.goLeft}>GO LEFT</button>
                         <button type = "button" onClick={() =>playerMove("right")} disabled={!dungeonView.availableActions.goRight}>GO RIGHT</button>
                         <button type = "button" onClick={() =>playerMove("down")} disabled={!dungeonView.availableActions.goDown}>GO DOWN</button>
-                        <button type = "button" onClick={() =>attackMonster(dungeonView.currentAdventure.monsterName)} style={{display: checkMonster(dungeonView.currentAdventure) ? "inline" : "none"}}>Attack Monster</button>
+                        <button type = "button" onClick={() =>attackMonster(dungeonView.currentAdventure.monsterName)} style={{display: checkMonster(dungeonView.currentAdventure) ? "inline" : "none"}}>Attack {dungeonView.currentAdventure.monsterName}</button>
                         <button type = "button">RUN AWAY!</button>
                     </>
                 )}
