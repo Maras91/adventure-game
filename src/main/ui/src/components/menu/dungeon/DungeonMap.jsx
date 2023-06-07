@@ -9,6 +9,20 @@ export default function DungeonMap({updateFunction}) {
     const [isLoading, setIsLoading] = useState(true)
     const [dungeonView, setDungeonView] = useState()
 
+    async function createRandomMap() {
+        const requestOptions = {
+                            method: "POST",
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify()
+                        }
+       try{
+           let response = await fetch("/createRandomMap", requestOptions)
+       } catch (e) {
+           console.log(e)
+       }
+       sendRequest()
+    }
+
     async function sendRequest() {
         setIsLoading(true)
         const requestOptions = {
@@ -58,8 +72,7 @@ export default function DungeonMap({updateFunction}) {
      }
 
     useEffect(() => {
-      console.log("useEffect 2 argument empty")
-      sendRequest()
+      createRandomMap()
     },[])
 
     function setDirections() {
@@ -98,7 +111,7 @@ export default function DungeonMap({updateFunction}) {
             <h3>Dungeon map</h3>
             {   isLoading ? (<div>Loading...</div>) :
                 (
-                    <div style={{width: 50*dungeonMap.length}}>
+                    <div style={{width: 50*dungeonMap[0].length}}>
                         {
                             dungeonMap.map((row) => {
                                return (

@@ -1,6 +1,7 @@
 package com.app.adventure.game.controller
 
 import com.app.adventure.game.model.dungeon.*
+import com.app.adventure.game.model.dungeon.services.RandomMapGeneratorService
 import com.app.adventure.game.view.DungeonMapView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -42,5 +43,12 @@ class DungeonController @Autowired constructor(
         if (direction == "right" && actionsAvailable.goRight) {
             playerPosition.goRight()
         }
+    }
+
+    @PostMapping("/createRandomMap")
+    @ResponseBody
+    fun createRandomMap() {
+        playerPosition.restartPosition()
+        dungeonMap.generateRandomMap()
     }
 }
